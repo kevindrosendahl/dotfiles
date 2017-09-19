@@ -20,9 +20,11 @@ for c in ${common}; do
   install_target ${c}
 done
 
+PERSONAL=0
 WORK=0
-while getopts 'w' flag; do
+while getopts 'pw' flag; do
   case "${flag}" in
+    p) PERSONAL=1 ;;
     w) WORK=1 ;;
     *) echo "Unexpected option ${flag}" && exit 1;;
   esac
@@ -41,6 +43,11 @@ function install_darwin() {
     echo "Must install homebrew" && exit 1
   fi
   brew bundle
+
+  if [[ ${PERSONAL} -gt 0 ]]; then
+    cd personal 
+    brew bundle
+  fi
 
   if [[ ${WORK} -gt 0 ]]; then
     cd work
