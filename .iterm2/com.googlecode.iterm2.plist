@@ -198,13 +198,13 @@
 	<key>NSWindow Frame SUStatusFrame</key>
 	<string>-920 672 400 129 -1440 287 1440 900 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>-1030 541 620 392 -1440 287 1440 900 </string>
+	<string>412 381 620 392 0 0 1440 900 </string>
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>630 308 606 456 0 0 2560 1440 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>138 399 796 473 0 0 1440 900 </string>
+	<string>138 321 796 473 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>155 98 570 429 0 0 1440 900 </string>
+	<string>0 0 1440 900 0 0 1440 900 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -1466,6 +1466,8 @@
 	<integer>0</integer>
 	<key>PasteTabToStringTabStopSize</key>
 	<integer>2</integer>
+	<key>PerformDNSLookups</key>
+	<false/>
 	<key>PointerActions</key>
 	<dict>
 		<key>Button,1,1,,</key>
@@ -1510,7 +1512,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-09-18T18:47:45Z</date>
+	<date>2017-09-19T18:55:21Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
