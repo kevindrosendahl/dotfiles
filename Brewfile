@@ -14,9 +14,11 @@ brew "wget"
 brew "xz"
 brew "zsh"
 
+cask '1password'
 cask 'alfred'
+cask 'bettertouchtool'
 cask 'dropbox'
 cask 'google-chrome'
 cask 'iterm2'
 cask 'spotify'
-
+cask 'virtualbox'

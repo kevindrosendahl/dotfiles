@@ -1,0 +1,10 @@
+brew 'awscli'
+brew 'bazel'
+brew 'kubernetes-cli'
+brew 'libgit2'
+brew 'libssh2'
+brew 'packer'
+brew 'terraform'
+
+cask 'intellij-idea'
+cask 'minikube'
