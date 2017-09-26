@@ -151,6 +151,8 @@
 	<false/>
 	<key>HideTabNumber</key>
 	<false/>
+	<key>HotkeyMigratedFromSingleToMulti</key>
+	<true/>
 	<key>JobName</key>
 	<true/>
 	<key>LoadPrefsFromCustomFolder</key>
@@ -174,7 +176,7 @@
 	gAKACoAN0xAJChEVGVdOUy5rZXlzoxITFIADgASABaMWFxiABoAHgAiACVpJZGVudGlm
 	aWVyVVdpZHRoVkhpZGRlblEwI0BowAAAAAAACNIhIiMkWiRjbGFzc25hbWVYJGNsYXNz
 	ZXNcTlNEaWN0aW9uYXJ5oiMlWE5TT2JqZWN00xAJCicrGaMSExSAA4AEgAWjLC0YgAuA
-	DIAIgAlRMSNAdCGdsi0OVtIhIjM0Xk5TTXV0YWJsZUFycmF5ozM1JVdOU0FycmF5XxAP
+	DIAIgAlRMSNAdKGdsi0OVtIhIjM0Xk5TTXV0YWJsZUFycmF5ozM1JVdOU0FycmF5XxAP
 	TlNLZXllZEFyY2hpdmVy0Tg5VUFycmF5gAEACAARABoAIwAtADIANwBGAEwAUQBcAGMA
 	ZgBoAGoAbABzAHsAfwCBAIMAhQCJAIsAjQCPAJEAnACiAKkAqwC0ALUAugDFAM4A2wDe
 	AOcA7gDyAPQA9gD4APwA/gEAAQIBBAEGAQ8BFAEjAScBLwFBAUQBSgAAAAAAAAIBAAAA
@@ -198,13 +200,13 @@
 	<key>NSWindow Frame SUStatusFrame</key>
 	<string>-920 672 400 129 -1440 287 1440 900 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>412 381 620 392 0 0 1440 900 </string>
+	<string>0 178 700 622 0 0 1280 800 </string>
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>630 308 606 456 0 0 2560 1440 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>138 321 796 473 0 0 1440 900 </string>
+	<string>104 323 796 473 0 0 1280 800 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 0 1440 900 0 0 1440 900 </string>
+	<string>0 0 1280 800 0 0 1280 800 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -364,12 +366,16 @@
 			<true/>
 			<key>Background Color</key>
 			<dict>
+				<key>Alpha Component</key>
+				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.0</real>
+				<real>0.212249755859375</real>
+				<key>Color Space</key>
+				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.0</real>
+				<real>0.212249755859375</real>
 				<key>Red Component</key>
-				<real>0.0</real>
+				<real>0.212249755859375</real>
 			</dict>
 			<key>Background Image Location</key>
 			<string></string>
@@ -996,20 +1002,22 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.069974593818187714</real>
+				<real>0.066666666666666666</real>
 				<key>Color Space</key>
-				<string>Calibrated</string>
+				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.070792138576507568</real>
+				<real>0.066666666666666666</real>
 				<key>Red Component</key>
-				<real>0.07076890766620636</real>
+				<real>0.066666666666666666</real>
 			</dict>
 			<key>Background Image Location</key>
 			<string></string>
 			<key>Blinking Cursor</key>
 			<false/>
 			<key>Blur</key>
-			<false/>
+			<true/>
+			<key>Blur Radius</key>
+			<real>11.411510548857864</real>
 			<key>Bold Color</key>
 			<dict>
 				<key>Blue Component</key>
@@ -1431,7 +1439,7 @@
 			<key>Terminal Type</key>
 			<string>xterm-256color</string>
 			<key>Transparency</key>
-			<real>0.054897836538461538</real>
+			<real>0.076879758883248731</real>
 			<key>Unlimited Scrollback</key>
 			<true/>
 			<key>Use Bold Font</key>
@@ -1458,6 +1466,10 @@
 	<true/>
 	<key>NoSyncInstallationId</key>
 	<string>64B1B4DF-FB2D-45E8-90C5-E3674BA358AA</string>
+	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
+	<true/>
+	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
+	<integer>1</integer>
 	<key>NoSyncPermissionToShowTip</key>
 	<false/>
 	<key>NoSyncTimeOfFirstLaunchOfVersionWithTip</key>
@@ -1512,7 +1524,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-09-19T18:55:21Z</date>
+	<date>2017-09-26T18:05:19Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
@@ -1524,6 +1536,8 @@
 	<key>TabStyle</key>
 	<integer>1</integer>
 	<key>TabViewType</key>
+	<integer>0</integer>
+	<key>TerminalVMargin</key>
 	<integer>0</integer>
 	<key>Window Arrangements</key>
 	<dict>
@@ -3017,7 +3031,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.0.15</string>
+	<string>3.1.1</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>

@@ -8,3 +8,4 @@ brew 'terraform'
 
 cask 'intellij-idea'
 cask 'minikube'
+cask 'slack'
