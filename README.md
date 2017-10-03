@@ -14,14 +14,20 @@
 
 ```
 zsh
+```
 
+```
 git clone --recursive https://github.com/kevindrosendahl/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+```
 
+```
 setopt EXTENDED_GLOB
 for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
   ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
 done
+```
 
+```
 chsh -s /bin/zsh
 ```
 
@@ -114,8 +120,4 @@ Sync using Dropbox
   - Navigate to ~, press cmd+shift+. to show dotfiles, click on .iterm2
 - View -> Customize Touch Bar...
   - Remove everything
-
-### zsh
-
-- clone + install github.com/kevindrosendahl/prezto
 
