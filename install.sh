@@ -1,6 +1,9 @@
+set -e
+
 common=(
   .tmux.conf
   .vimrc
+  .vim
 )
 
 install_target() {
@@ -16,7 +19,7 @@ install_target() {
   echo "Installed ${1}"
 }
 
-for c in ${common}; do
+for c in ${common[@]}; do
   install_target ${c}
 done
 
