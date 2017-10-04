@@ -1,6 +1,4 @@
 # Needed for bazel
-cask 'java'
-
 brew 'awscli'
 brew 'bazel'
 brew 'kubernetes-cli'

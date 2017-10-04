@@ -1,5 +1,9 @@
 # Installation checklist:
 
+## Install JDK
+
+If necessary (e.g. if installing Bazel via `./install -w`), install [JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+
 ## Install programs
 
 ```
@@ -37,6 +41,10 @@ chsh -s /bin/zsh
 ssh-keygen -t rsa -b 4096 -C "kevindrosendahl@gmail.com" -f ~/.ssh/id_rsa-github
 cat ~/.ssh/id_rsa-github.pub
 ```
+
+## Install gvm
+
+Follow directions in [repo](https://github.com/moovweb/gvm)
 
 ## OS X checklist
 
