@@ -1,0 +1,26 @@
+# vcs
+git
+
+# editors
+vim
+
+# monitoring
+htop
+
+# utils
+curl
+dnsutils
+jq
+openssl
+rsync
+tree
+watch
+wget
+
+# tmux
+tmux
+
+# zsh
+zsh
+zsh-syntax-highlighting
+

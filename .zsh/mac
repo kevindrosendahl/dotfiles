@@ -1,0 +1,13 @@
+function have() {
+    which $1 &>/dev/null
+}
+
+# GNU utils
+have gls && alias ls='gls --color=auto'
+have gsed && alias sed=gsed && alias esed='gsed -r'
+have grm && alias rm=grm
+have gxargs && alias xargs=gxargs
+
+# syntax highlighting
+export _syntax_highlighting="/usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+

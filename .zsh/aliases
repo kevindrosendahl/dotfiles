@@ -1,0 +1,23 @@
+# Git
+alias gb='git branch'
+alias gc='git commit'
+alias gcm='git commit -m'
+alias gca='git commit -a'
+alias gcam='git commit -a -m'
+alias gd='git diff'
+alias gdc='git diff --cached'
+alias gl='git log'
+alias gpl='git pull'
+alias gps='git push'
+alias gs='git status'
+alias ga='git add'
+alias gco='git checkout'
+alias gm='git merge'
+alias gf='git fetch'
+
+# Misc
+alias ls='ls -alhFG'
+alias l=ls
+alias v=vim
+alias lf='less +F'
+

@@ -1,0 +1,52 @@
+HOST=`hostname | cut -d '.' -f 1`
+DOMAIN=`hostname | cut -d '.' -f 2-`
+HOSTNAME=`hostname`
+
+function shortpath() {
+    # Special vim-tab-like shortpath (~/folder/directory/foo => ~/f/d/foo)
+    _pwd=`pwd | sed "s#$HOME#~#"`
+    if [[ $_pwd == "~" ]]; then
+        _dirname=$_pwd
+    else
+        _dirname=`dirname "$_pwd" | esed "s/\/(.)[^\/]*/\/\1/g"`
+        if [[ $_dirname == "/" ]]; then
+            _dirname=""
+        fi
+        _dirname="$_dirname/`basename "$_pwd"`"
+    fi
+    echo "${_dirname}"
+}
+
+function git_status() {
+    _branch=$(git symbolic-ref HEAD 2>/dev/null)
+    current_git_branch=${_branch#refs/heads/}
+
+    # If not in a git repo nothing more to do
+    [[ -z $current_git_branch ]] && return
+
+    _untracked=""
+    _dirty=" *"
+    # Taken from oh-my-zsh/lib/git.zsh
+    if git status --porcelain 2>/dev/null | grep '^??' &>/dev/null; then
+        _untracked=" *"
+	_dirty="*"
+    fi
+
+    # Git branch / dirtiness
+    # Dirtiness cribbed from:
+    # http://henrik.nyh.se/2008/12/git-dirty-prompt#comment-8325834
+    if git update-index -q --refresh &>/dev/null; git diff-index --quiet --cached HEAD --ignore-submodules -- 2>/dev/null && git diff-files --quiet --ignore-submodules 2>/dev/null; then
+        _dirty=""
+    fi
+
+
+    _status=" (%F{blue}${current_git_branch}%f%F{magenta}${_untracked}%f%F{214}${_dirty}%f)"
+    echo ${_status}
+}
+
+function precmd() {
+	export PS1="%F{blue}[%w %*]%f %F{green}$(whoami)%f at %F{blue}${HOSTNAME}%f in $(shortpath)$(git_status)
+%(?.[%F{green}%?%f].[%F{red}%?%f]) "
+	export RPS1=""
+}
+

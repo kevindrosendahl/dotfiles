@@ -1,70 +1,54 @@
-set -e
+set -o errexit
+set -o pipefail
+set -o nounset
 
-common=(
-  .tmux.conf
-  .vimrc
-  .vim
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+PLATFORMS_DIR=${DIR}/platform
+
+DOTFILES=(
+	.tmux.conf
+	.vimrc
+	.zshrc
 )
 
-install_target() {
-  target="${HOME}/${1}"
+DOTDIRS=(
+	.vim
+	.zsh
+)
 
-  if [ -h ${target} ]; then
-    rm ${target}
-  elif [ -d ${target} ]; then
-    rm -rf ${target}
-  fi
+sync() {
+	echo "syncing dotfiles"
+	for d in ${DOTFILES[@]}; do
+		rsync -v ${DIR}/${d} ${HOME}/${d}
+	done
 
-  ln -s "${PWD}/${1}" "${target}"
-  echo "Installed ${1}"
-}
-
-for c in ${common[@]}; do
-  install_target ${c}
-done
-
-PERSONAL=0
-WORK=0
-while getopts 'pw' flag; do
-  case "${flag}" in
-    p) PERSONAL=1 ;;
-    w) WORK=1 ;;
-    *) echo "Unexpected option ${flag}" && exit 1;;
-  esac
-done
-
-function install_darwin() {
-  mac=(
-    .iterm2
-  )
-
-  for m in ${mac}; do
-    install_target ${m}
-  done
-
-  if [[ $(which brew &>/dev/null) -ne 0 ]]; then
-    echo "Must install homebrew" && exit 1
-  fi
-  brew bundle
-
-  if [[ ${PERSONAL} -gt 0 ]]; then
-    cd personal 
-    brew bundle
-  fi
-
-  if [[ ${WORK} -gt 0 ]]; then
-    cd work
-    brew bundle
-  fi
+	for d in ${DOTDIRS[@]}; do
+		rsync -rv ${DIR}/${d} ${HOME}
+	done
 }
 
 UNAME=$(uname)
 case ${UNAME} in
-  Darwin) 
-    install_darwin
-    ;;
-  *)
-    echo "Unsupported platform ${UNAME}"
+	Darwin) 
+		PLATFORM_DIR=${PLATFORMS_DIR}/darwin
+		;;
+
+	Linux)
+		PLATFORM_DIR=${PLATFORMS_DIR}/linux
+		;;
+
+	*)
+		echo "unsupported platform ${UNAME}" && exit 1	
     ;;
 esac
+
+# install
+[ -f ${PLATFORM_DIR}/pre-install-hook.sh ] && ${PLATFORM_DIR}/pre-install-hook.sh
+${PLATFORM_DIR}/install.sh
+[ -f ${PLATFORM_DIR}/post-install-hook.sh ] && ${PLATFORM_DIR}/post-install-hook.sh
+
+# sync dotfiles
+[ -f ${PLATFORM_DIR}/pre-sync-hook.sh ] && ${PLATFORM_DIR}/pre-sync-hook.sh
+sync
+[ -f ${PLATFORM_DIR}/post-sync-hook.sh ] && ${PLATFORM_DIR}/post-sync-hook.sh
 

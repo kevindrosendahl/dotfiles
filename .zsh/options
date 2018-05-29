@@ -1,0 +1,21 @@
+# http://zsh.sourceforge.net/Doc/Release/Options.html
+for option (
+    # Changing directories
+    AUTO_CD
+
+    # Expansion and globbing
+    EXTENDED_GLOB
+
+    # History
+    APPEND_HISTORY
+    EXTENDED_HISTORY
+    HIST_IGNORE_DUPS
+    SHARE_HISTORY
+
+    # Input/Output
+    CORRECT
+) setopt $option
+
+# Use Emacs style line editing for now.
+bindkey -e
+

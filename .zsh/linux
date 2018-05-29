@@ -1,0 +1,5 @@
+alias esed='sed -r'
+
+# syntax highlighting
+export _syntax_highlighting="/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+

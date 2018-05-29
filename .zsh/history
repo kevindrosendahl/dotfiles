@@ -1,0 +1,4 @@
+export HISTFILE=$ZSH/data/history
+export HISTSIZE=10000
+export SAVEHIST=$HISTSIZE
+
