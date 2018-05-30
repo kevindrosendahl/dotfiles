@@ -16,6 +16,8 @@ DOTFILES=(
     prompt
     local
     syntax-highlighting
+		rust
+		golang
 )
 for file in $DOTFILES; do
     file=$ZSH/$file

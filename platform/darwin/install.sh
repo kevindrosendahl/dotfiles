@@ -1,4 +1,8 @@
-set -e
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
@@ -146,4 +150,3 @@ fi
 
 install_brew
 set_options
-

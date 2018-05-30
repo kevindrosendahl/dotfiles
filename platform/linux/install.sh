@@ -1,4 +1,8 @@
-set -e
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 APT_PACKAGES_FILE=${DIR}/apt-packages.txt
@@ -17,4 +21,3 @@ case ${DISTRO} in
     echo "unsupported distro ${DISTRO}" && exit 1
     ;;
 esac
-

@@ -1,5 +1,7 @@
 " Colors
 syntax enable                               " syntax highlighting
+set background=dark
+colorscheme hybrid_reverse
 
 set colorcolumn=80,120
 
