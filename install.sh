@@ -17,7 +17,7 @@ DOTDIRS=(
 )
 
 sync() {
-	echo "syncing dotfiles"
+	echo && echo "* syncing dotfiles"
 	for d in ${DOTFILES[@]}; do
 		rsync -v ${DIR}/${d} ${HOME}/${d}
 	done

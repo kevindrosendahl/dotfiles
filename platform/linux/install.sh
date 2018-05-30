@@ -14,7 +14,7 @@ case ${DISTRO} in
     install_apt
     ;;
   *)
-    echo "unsupported distro ${DISTRO}"
+    echo "unsupported distro ${DISTRO}" && exit 1
     ;;
 esac
 
