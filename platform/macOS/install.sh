@@ -143,6 +143,17 @@ set_options() {
   echo "Done. Note that some of these changes require a logout/restart to take effect."
 }
 
+DOTDIRS=(
+    .hammerspoon
+    .iterm2
+)
+
+sync() {
+	echo && echo "* syncing macOS dotfiles"
+	for d in ${DOTDIRS[@]}; do
+		rsync -rv ${DIR}/${d} ${HOME}
+	done
+}
 
 if [[ $(which brew &>/dev/null) -ne 0 ]]; then
 	echo "please install homebrew" && exit 1
@@ -150,3 +161,4 @@ fi
 
 install_brew
 set_options
+sync

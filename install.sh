@@ -32,7 +32,7 @@ sync() {
 UNAME=$(uname)
 case ${UNAME} in
 	Darwin) 
-		PLATFORM_DIR=${PLATFORMS_DIR}/darwin
+		PLATFORM_DIR=${PLATFORMS_DIR}/macOS
 		;;
 
 	Linux)

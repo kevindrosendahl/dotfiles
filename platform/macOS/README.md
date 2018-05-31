@@ -45,12 +45,6 @@ Log in
 - Sign in to Google account
 - Hide unwanted extensions
 
-## BetterTouchTool
-
-- Load license from emailed receipt
-- Advanced settings
-  - Sync: Enable Dropbox Sync
-
 ## iTerm2
 
 - iTerm2 -> Preferences
@@ -61,3 +55,4 @@ Log in
   
 ## TODO:
 - see if we can automate any more of this
+- switch to alacrity & remove iTerm2 config
