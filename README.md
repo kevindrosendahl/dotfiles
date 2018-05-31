@@ -3,7 +3,7 @@
 ## Install programs
 
 ```
-./install.sh [-w] [-p]
+./install.sh
 ```
 
 ## Follow platform specific checklist
