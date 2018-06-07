@@ -163,10 +163,15 @@ sync() {
 	done
 }
 
-
+BREW_SERVICES=(
+    chunkwm
+)
 
 start_services() {
-    brew services start chunkwm
+	echo && echo "* starting brew services"
+	for d in ${DOTDIRS[@]}; do
+	    brew services start ${d}
+	done
 }
 if [[ $(which brew &>/dev/null) -ne 0 ]]; then
 	echo "please install homebrew" && exit 1
@@ -175,3 +180,4 @@ fi
 install_brew
 set_options
 sync
+start_services
