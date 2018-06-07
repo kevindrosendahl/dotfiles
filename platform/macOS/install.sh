@@ -7,12 +7,13 @@ set -o nounset
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 ask_yes_no() {
-  read -p "${1}? [Y/n]: " -n 1 -r
-  if [[ ! $REPLY =~ ^[Yy]$ ]]
-  then
-      return 0
+  read "response?${1}? [Y/n] "
+  response=${response:l} #tolower
+  if [[ $response =~ ^(yes|y| ) ]] || [[ -z $response ]]; then
+    echo 1
+  else
+    echo 0
   fi
-  return 1
 }
 
 install_brew() {
@@ -186,6 +187,7 @@ sync() {
 }
 
 set_shell() {
+  echo && echo "* setting shell to zsh"
   local shell_path;
   shell_path="$(which zsh)"
 
@@ -196,8 +198,7 @@ set_shell() {
 }
 
 start_hammerspoon() {
-    ask_yes_no "configure hammerspoon"
-    [[ "${?}" -eq 0 ]] && return
+    [[ $(ask_yes_no "configure hammerspoon") -eq 0 ]] && return 0
 
     echo && echo "starting hammerspoon"
     open /Applications/Hammerspoon.app
@@ -235,6 +236,7 @@ start_chunkwm() {
 }
 
 start_services() {
+    echo && echo "* configuring services"
     start_hammerspoon
     start_alfred
     start_chunkwm
