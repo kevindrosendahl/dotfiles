@@ -6,6 +6,15 @@ set -o nounset
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+ask_yes_no() {
+  read -p "${1}? [Y/n]: " -n 1 -r
+  if [[ ! $REPLY =~ ^[Yy]$ ]]
+  then
+      return 0
+  fi
+  return 1
+}
+
 install_brew() {
   if ! command -v brew >/dev/null; then
     echo && echo "installing Homebrew"
@@ -187,6 +196,9 @@ set_shell() {
 }
 
 start_hammerspoon() {
+    ask_yes_no "configure hammerspoon"
+    [[ "${?}" -eq 0 ]] && return
+
     echo && echo "starting hammerspoon"
     open /Applications/Hammerspoon.app
     cat << EOF
