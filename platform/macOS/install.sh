@@ -169,7 +169,7 @@ BREW_SERVICES=(
 
 start_services() {
 	echo && echo "* starting brew services"
-	for d in ${DOTDIRS[@]}; do
+	for d in ${BREW_SERVICES[@]}; do
 	    brew services start ${d}
 	done
 }
