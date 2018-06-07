@@ -163,16 +163,31 @@ sync() {
 	done
 }
 
-BREW_SERVICES=(
-    chunkwm
-)
+start_hammerspoon() {
+    echo "starting hammerspoon"
+    open /Applications/Hammerspoon.app
+    read -p "Please allow Hammerspoon accessibility permissions and enable it on startup, then hit enter"
+}
+
+start_alfred() {
+    echo "starting alfred"
+    open "/Applications/Alfred 3.app"
+    read -p "Please set hotkey to cmd+space and enable on startup, then hit enter"
+}
+
+start_chunkwm() {
+    echo "starting chunkwm"
+    brew services run chunkwm
+    read -p "Please allow chunkwm accessibility permissions, then hit enter to continue"
+    echo "restarting chunkwm"
+}
 
 start_services() {
-	echo && echo "* starting brew services"
-	for d in ${BREW_SERVICES[@]}; do
-	    brew services start ${d}
-	done
+    start_hammerspoon
+    start_alfred
+    start_chunkwm
 }
+
 if [[ $(which brew &>/dev/null) -ne 0 ]]; then
 	echo "please install homebrew" && exit 1
 fi
