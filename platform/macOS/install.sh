@@ -177,11 +177,11 @@ DOTDIRS=(
 sync() {
 	echo && echo "* syncing macOS dotfiles"
 	for d in ${DOTFILES[@]}; do
-		rsync -v ${DIR}/${d} ${HOME}/${d}
+		rsync ${DIR}/${d} ${HOME}/${d}
 	done
 
 	for d in ${DOTDIRS[@]}; do
-		rsync -rv ${DIR}/${d} ${HOME}
+		rsync -r ${DIR}/${d} ${HOME}
 	done
 }
 
@@ -199,7 +199,7 @@ set_shell() {
 start_hammerspoon() {
     [[ $(ask_yes_no "configure hammerspoon") -eq 0 ]] && return 0
 
-    echo && echo "starting hammerspoon"
+    echo "starting hammerspoon"
     open /Applications/Hammerspoon.app
     cat << EOF
 Please configure the following options for hammerspoon:
@@ -212,7 +212,10 @@ EOF
 }
 
 start_alfred() {
-    echo && echo "starting alfred"
+    echo
+    [[ $(ask_yes_no "configure alfred") -eq 0 ]] && return 0
+
+    echo "starting alfred"
     open "/Applications/Alfred 3.app"
     cat << EOF
 Please configure the following options for hammerspoon:
@@ -226,7 +229,10 @@ EOF
 }
 
 start_chunkwm() {
-    echo && echo "starting chunkwm"
+    echo
+    [[ $(ask_yes_no "configure chunkwm") -eq 0 ]] && return 0
+
+    echo "starting chunkwm"
     brew services run chunkwm
     echo "Please allow chunkwm accessibility permissions"
     read -p "when complete, hit enter"
