@@ -30,8 +30,13 @@ chunkcCmd({"cmd", "shift"}, "L", "tiling::window --warp east")
 -- rotate windows
 chunkcCmd({"cmd", "shift"}, "R", "tiling::desktop --rotate 270")
 
+-- resize windows
+chunkcCmd({"alt", "shift"}, "H", "tiling::window --use-temporary-ratio 0.05 --adjust-window-edge west; chunkc tiling::window --use-temporary-ratio -0.05 --adjust-window-edge east")
+chunkcCmd({"alt", "shift"}, "J", "tiling::window --use-temporary-ratio 0.05 --adjust-window-edge south; chunkc tiling::window --use-temporary-ratio -0.05 --adjust-window-edge north")
+chunkcCmd({"alt", "shift"}, "K", "tiling::window --use-temporary-ratio 0.05 --adjust-window-edge north; chunkc tiling::window --use-temporary-ratio -0.05 --adjust-window-edge south")
+chunkcCmd({"alt", "shift"}, "L", "tiling::window --use-temporary-ratio 0.05 --adjust-window-edge east; chunkc tiling::window --use-temporary-ratio -0.05 --adjust-window-edge west")
+
 -- move to workspace
-chunkcCmd({"cmd", "shift"}, "l", "tiling::window --send-to-desktop $(/usr/local/bin/chunkc get _last_active_desktop)")
 chunkcCmd({"cmd", "shift"}, "p", "tiling::window --send-to-desktop prev")
 chunkcCmd({"cmd", "shift"}, "n", "tiling::window --send-to-desktop next")
 chunkcCmd({"cmd", "shift"}, "1", "tiling::window --send-to-desktop 1")

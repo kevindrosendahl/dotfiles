@@ -1,5 +1,6 @@
 require('applicationLaunch')
 require('chunkwm')
 require('defaults')
+require('hotReload')
 --require('screens')
 --require('windows')
