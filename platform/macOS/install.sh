@@ -7,7 +7,17 @@ set -o nounset
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 install_brew() {
-	echo "* installing brew packages"
+  if ! command -v brew >/dev/null; then
+    echo && echo "installing Homebrew"
+    curl -fsS \
+      'https://raw.githubusercontent.com/Homebrew/install/master/install' | ruby
+
+    export PATH="/usr/local/bin:$PATH"
+  fi
+}
+
+install_brew_packages() {
+	echo && echo "* installing brew packages"
 	cd ${DIR}
 	brew bundle
 }
@@ -93,6 +103,9 @@ set_options() {
   # Autohide the Dock
   defaults write com.apple.dock autohide -int 1
 
+  # Autohide the menu bar
+  defaults write NSGlobalDomain _HIHideMenuBar -bool true
+
   # Hot corners
   # Possible values:
   #  0: no-op
@@ -163,22 +176,48 @@ sync() {
 	done
 }
 
+set_shell() {
+  local shell_path;
+  shell_path="$(which zsh)"
+
+  if ! grep "$shell_path" /etc/shells > /dev/null 2>&1 ; then
+    sudo sh -c "echo $shell_path >> /etc/shells"
+  fi
+  sudo chsh -s "$shell_path" "$USER"
+}
+
 start_hammerspoon() {
-    echo "starting hammerspoon"
+    echo && echo "starting hammerspoon"
     open /Applications/Hammerspoon.app
-    read -p "Please allow Hammerspoon accessibility permissions and enable it on startup, then hit enter"
+    cat << EOF
+Please configure the following options for hammerspoon:
+  - enable Launch Hammerspoon at login
+  - enable Show menu item
+  - disable Show dock icon
+  - Enable Accessibility
+EOF
+    read -p "when complete, hit enter"
 }
 
 start_alfred() {
-    echo "starting alfred"
+    echo && echo "starting alfred"
     open "/Applications/Alfred 3.app"
-    read -p "Please set hotkey to cmd+space and enable on startup, then hit enter"
+    cat << EOF
+Please configure the following options for hammerspoon:
+  General:
+    - enable Launch Alfred at login
+    - set Alfred Hotkey to cmd + space
+  Appearance:
+    - Alfred macOS Dark
+EOF
+    read -p "when complete, hit enter"
 }
 
 start_chunkwm() {
-    echo "starting chunkwm"
+    echo && echo "starting chunkwm"
     brew services run chunkwm
-    read -p "Please allow chunkwm accessibility permissions, then hit enter to continue"
+    echo "Please allow chunkwm accessibility permissions"
+    read -p "when complete, hit enter"
     echo "restarting chunkwm"
 }
 
@@ -193,6 +232,8 @@ if [[ $(which brew &>/dev/null) -ne 0 ]]; then
 fi
 
 install_brew
+install_brew_packages
 set_options
 sync
+set_shell
 start_services
