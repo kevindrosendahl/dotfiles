@@ -31,12 +31,13 @@ install_brew_packages() {
 
 	set +e
 	brew bundle
-	set -e
 
 	if [[ "${?}" -ne 0 ]]; then
+	    set -e
 	    echo "for some reason brew seems to be having a hard time installing python. a retry usually works. retrying now"
 	    brew bundle
 	fi
+	set -e
 }
 
 # much of this gleamed from https://github.com/mathiasbynens/dotfiles/blob/master/.macos
