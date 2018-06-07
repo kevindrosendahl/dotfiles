@@ -219,6 +219,7 @@ start_chunkwm() {
     echo "Please allow chunkwm accessibility permissions"
     read -p "when complete, hit enter"
     echo "restarting chunkwm"
+    brew services restart chunkwm
 }
 
 start_services() {
