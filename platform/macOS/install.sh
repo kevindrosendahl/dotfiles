@@ -143,6 +143,10 @@ set_options() {
   echo "Done. Note that some of these changes require a logout/restart to take effect."
 }
 
+DOTFILES=(
+    .chunkwmrc
+)
+
 DOTDIRS=(
     .hammerspoon
     .iterm2
@@ -150,11 +154,20 @@ DOTDIRS=(
 
 sync() {
 	echo && echo "* syncing macOS dotfiles"
+	for d in ${DOTFILES[@]}; do
+		rsync -v ${DIR}/${d} ${HOME}/${d}
+	done
+
 	for d in ${DOTDIRS[@]}; do
 		rsync -rv ${DIR}/${d} ${HOME}
 	done
 }
 
+
+
+start_services() {
+    brew services start chunkwm
+}
 if [[ $(which brew &>/dev/null) -ne 0 ]]; then
 	echo "please install homebrew" && exit 1
 fi

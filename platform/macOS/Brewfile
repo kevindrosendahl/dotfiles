@@ -1,18 +1,22 @@
 tap "caskroom/cask"
 tap "homebrew/bundle"
 tap "homebrew/core"
+tap "homebrew/services"
+tap "crisidev/homebrew-chunkwm"
 
 brew "git"
 brew "htop"
 brew "jq"
 brew "openssl"
-brew "reattach-to-user-namespace"
+brew "python"
 brew "tmux"
+brew "reattach-to-user-namespace"
 brew "tree"
 brew "watch"
 brew "wget"
 brew "xz"
 brew "zsh"
+brew "chunkwm"
 
 cask '1password'
 cask 'alfred'

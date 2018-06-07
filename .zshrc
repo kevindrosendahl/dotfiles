@@ -7,21 +7,21 @@ export ZSH=~/.zsh
 
 typeset -a DOTFILES
 DOTFILES=(
-    options
-    exports
-    completion
-    aliases
-    platform
-    history
-    prompt
-    local
-    syntax-highlighting
-		rust
-		golang
+	options
+	exports
+	completion
+	aliases
+	platform
+	history
+	prompt
+	local
+	syntax-highlighting
+	rust
+	golang
 )
 for file in $DOTFILES; do
-    file=$ZSH/$file
-    [[ -f $file ]] && source $file
+	file=$ZSH/$file
+	[[ -f $file ]] && source $file
 done
 
 # Sanity cleanup of PATH, which otherwise can grow duplicate entries (making
