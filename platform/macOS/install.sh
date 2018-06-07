@@ -7,7 +7,7 @@ set -o nounset
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 ask_yes_no() {
-  read -p "${1}? [Y/n]: " -n 1 -r
+  read -p "${1}? [Y/n]: " -r
   if [[ ${REPLY} =~ ^(yes|y| ) ]] || [[ -z ${REPLY} ]]; then
     echo 1
   else
