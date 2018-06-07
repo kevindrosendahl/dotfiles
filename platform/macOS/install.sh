@@ -28,12 +28,20 @@ install_brew() {
 install_brew_packages() {
 	echo && echo "* installing brew packages"
 	cd ${DIR}
+
+	set +e
 	brew bundle
+	set -e
+
+	if [[ "${?}" -ne 0 ]]; then
+	    echo "for some reason brew seems to be having a hard time installing python. a retry usually works. retrying now"
+	    brew bundle
+	fi
 }
 
 # much of this gleamed from https://github.com/mathiasbynens/dotfiles/blob/master/.macos
 set_options() {
-  echo && echo "* setting macOS options"
+  echo && echo "* setting macOS options (some may require a restart)"
 
   # Ask for the administrator password upfront
   sudo -v
