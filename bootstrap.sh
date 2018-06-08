@@ -1,8 +1,5 @@
-#!/usr/bin/env bash
-
-set -o errexit
-set -o pipefail
-set -o nounset
+#!/bin/sh
+set -u
 
 which git &>/dev/null git || echo "please install git" && exit 1
 
