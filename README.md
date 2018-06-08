@@ -1,18 +1,7 @@
-# Installation checklist:
+# Install
 
-## Install packages and sync dotfiles
-
-```
-./install.sh
-```
-
-## Add Github ssh key
+To clone this repo to `${HOME}/dotfiles` and install it, run:
 
 ```
-ssh-keygen -t rsa -b 4096 -C "kevindrosendahl@gmail.com" -f ~/.ssh/id_rsa-github
-cat ~/.ssh/id_rsa-github.pub
+curl https://raw.githubusercontent.com/kevindrosendahl/dotfiles/master/bootstrap.sh | sh
 ```
-
-## Follow platform specific checklist
-
-- [macOS](./platform/darwin/README.md)
