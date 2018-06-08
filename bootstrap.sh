@@ -1,7 +1,14 @@
 #!/bin/sh
 set -u
 
-which git &>/dev/null git || echo "please install git" && exit 1
+need_cmd() {
+    if ! command -v "$1" > /dev/null 2>&1
+    then "please install $1"
+    fi
+}
+
+need_cmd git
+need_cmd curl
 
 # clone dotfiles to ${HOME}/dotfiles
 cd ${HOME}
