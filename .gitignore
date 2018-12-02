@@ -11,3 +11,9 @@
 ### macOS
 # General
 .DS_Store
+
+/target
+**/*.rs.bk
+
+/target
+**/*.rs.bk
