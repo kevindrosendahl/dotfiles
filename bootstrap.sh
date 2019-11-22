@@ -10,6 +10,8 @@ need_cmd() {
 need_cmd git
 need_cmd curl
 
+set -e
+
 # Clone dotfiles to ${HOME}/src/github/kevindrosendahl/dotfiles
 GIT_DIR="${HOME}/src/github/kevindrosendahl"
 mkdir -p ${GIT_DIR}
