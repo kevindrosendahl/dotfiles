@@ -175,12 +175,11 @@ set_options() {
 }
 
 DOTFILES=(
-    .chunkwmrc
+    .yabairc
 )
 
 DOTDIRS=(
     .hammerspoon
-    .iterm2
 )
 
 sync() {
@@ -237,23 +236,23 @@ EOF
     read -p "when complete, hit enter"
 }
 
-start_chunkwm() {
+start_yabai() {
     echo
-    [[ $(ask_yes_no "configure chunkwm") -eq 0 ]] && return 0
+    [[ $(ask_yes_no "configure yabai?") -eq 0 ]] && return 0
 
-    echo "starting chunkwm"
-    brew services run chunkwm
-    echo "Please allow chunkwm accessibility permissions"
+    echo "starting yabai"
+    brew services run yabai
+    echo "Please allow yabai accessibility permissions"
     read -p "when complete, hit enter"
-    echo "restarting chunkwm"
-    brew services restart chunkwm
+    echo "restarting yabai"
+    brew services restart yabai
 }
 
 start_services() {
     echo && echo "* configuring services"
     start_hammerspoon
     start_alfred
-    start_chunkwm
+    start_yabai
 }
 
 if [[ $(which brew &>/dev/null) -ne 0 ]]; then
