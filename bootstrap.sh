@@ -12,11 +12,11 @@ need_cmd curl
 
 set -e
 
-# Clone dotfiles to ${HOME}/src/github/kevindrosendahl/dotfiles
-GIT_DIR="${HOME}/src/github/kevindrosendahl"
+# Clone dotfiles to ${HOME}/src/github.com/kevindrosendahl/dotfiles
+GIT_DIR="${HOME}/src/github.com/kevindrosendahl"
 mkdir -p ${GIT_DIR}
 cd ${GIT_DIR}
 git clone https://github.com/kevindrosendahl/dotfiles.git
 
 # Run install script.
-${HOME}/src/github/kevindrosendahl/dotfiles/install.sh
+${HOME}/src/github.com/kevindrosendahl/dotfiles/install.sh

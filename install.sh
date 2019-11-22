@@ -21,11 +21,11 @@ DOTDIRS=(
 sync() {
 	echo && echo "* syncing dotfiles"
 	for d in ${DOTFILES[@]}; do
-		ln -s ${DIR}/${d} ${HOME}/${d}
+		ln -sfF ${DIR}/${d} ${HOME}/${d}
 	done
 
 	for d in ${DOTDIRS[@]}; do
-		ln -s ${DIR}/${d} ${HOME}
+		ln -sfF ${DIR}/${d} ${HOME}
 	done
 }
 

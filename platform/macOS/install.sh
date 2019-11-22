@@ -175,6 +175,7 @@ set_options() {
 }
 
 DOTFILES=(
+    .tmux.platform.conf
     .yabairc
 )
 
@@ -185,11 +186,11 @@ DOTDIRS=(
 sync() {
 	echo && echo "* syncing macOS dotfiles"
 	for d in ${DOTFILES[@]}; do
-		rsync ${DIR}/${d} ${HOME}/${d}
+		ln -sfF ${DIR}/${d} ${HOME}/${d}
 	done
 
 	for d in ${DOTDIRS[@]}; do
-		rsync -r ${DIR}/${d} ${HOME}
+		ln -sfF ${DIR}/${d} ${HOME}
 	done
 }
 
@@ -224,7 +225,7 @@ start_alfred() {
     [[ $(ask_yes_no "configure alfred") -eq 0 ]] && return 0
 
     echo "starting alfred"
-    open "/Applications/Alfred 3.app"
+    open "/Applications/Alfred 4.app"
     cat << EOF
 Please configure the following options for hammerspoon:
   General:
