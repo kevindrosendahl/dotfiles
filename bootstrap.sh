@@ -19,5 +19,4 @@ cd ${GIT_DIR}
 git clone https://github.com/kevindrosendahl/dotfiles.git
 
 # Run install script.
-cd dotfiles
 ${HOME}/src/github/kevindrosendahl/dotfiles/install.sh
