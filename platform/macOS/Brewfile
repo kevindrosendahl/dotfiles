@@ -26,9 +26,9 @@ brew "tmux"
 brew "tree"
 brew "vim"
 brew "watch"
-berw "wget"
+brew "wget"
 brew "xz"
-berw "zsh"
+brew "zsh"
 brew "zsh-syntax-highlighting"
 
 
