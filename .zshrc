@@ -1,4 +1,4 @@
-[ -z "$TMUX"  ] && { tmux attach || tmux new-session;}
+[ -z "$TMUX"  ] && tmux new-session
 
 export ZSH=~/.zsh
 
@@ -11,7 +11,7 @@ DOTFILES=(
 	exports
 	completion
 	aliases
-	platform
+    platform
 	history
 	prompt
 	local
@@ -27,4 +27,3 @@ done
 # Sanity cleanup of PATH, which otherwise can grow duplicate entries (making
 # troubleshooting harder than it needs to be)
 typeset -U PATH
-

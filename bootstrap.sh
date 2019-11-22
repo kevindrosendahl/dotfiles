@@ -10,10 +10,12 @@ need_cmd() {
 need_cmd git
 need_cmd curl
 
-# clone dotfiles to ${HOME}/dotfiles
-cd ${HOME}
+# Clone dotfiles to ${HOME}/src/github/kevindrosendahl/dotfiles
+GIT_DIR=${HOME}/src/github/kevindrosendahl/
+mkdir -p ${GIT_DIR}
+cd ${GIT_DIR}
 git clone https://github.com/kevindrosendahl/dotfiles.git
 
-# run ${HOME}/dotfiles/install.sh
+# Run install script.
 cd dotfiles
 ${HOME}/dotfiles/install.sh

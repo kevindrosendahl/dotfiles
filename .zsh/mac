@@ -3,7 +3,8 @@ function have() {
 }
 
 # GNU utils
-have gls && alias ls='gls --color=auto'
+have gls && alias ls='gls --color=auto -ahFG'
+have gls && alias ll='gls --color=auto -alhFG'
 have gsed && alias sed=gsed && alias esed='gsed -r'
 have grm && alias rm=grm
 have gxargs && alias xargs=gxargs

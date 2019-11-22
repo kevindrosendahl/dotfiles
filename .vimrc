@@ -7,8 +7,9 @@ colorscheme hybrid_reverse
 set tabstop=4                               " number of visual spaces per TAB
 set softtabstop=4                           " number of spaces in tab when editing
 set shiftwidth=4
-set noexpandtab
 set autoindent
+set expandtab
+set smarttab
 
 " UI
 set number relativenumber                   " line numbers

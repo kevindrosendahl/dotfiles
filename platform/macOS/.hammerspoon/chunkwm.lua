@@ -18,8 +18,6 @@ chunkcCmd({"alt"}, "H", "tiling::window --focus west")
 chunkcCmd({"alt"}, "J", "tiling::window --focus south")
 chunkcCmd({"alt"}, "K", "tiling::window --focus north")
 chunkcCmd({"alt"}, "L", "tiling::window --focus east")
-chunkcCmd({"alt"}, "P", "tiling::window --focus prev")
-chunkcCmd({"alt"}, "N", "tiling::window --focus next")
 
 -- move window
 chunkcCmd({"cmd", "shift"}, "H", "tiling::window --warp west")
@@ -37,8 +35,6 @@ chunkcCmd({"alt", "shift"}, "K", "tiling::window --use-temporary-ratio 0.05 --ad
 chunkcCmd({"alt", "shift"}, "L", "tiling::window --use-temporary-ratio 0.05 --adjust-window-edge east; chunkc tiling::window --use-temporary-ratio -0.05 --adjust-window-edge west")
 
 -- move to workspace
-chunkcCmd({"cmd", "shift"}, "p", "tiling::window --send-to-desktop prev")
-chunkcCmd({"cmd", "shift"}, "n", "tiling::window --send-to-desktop next")
 chunkcCmd({"cmd", "shift"}, "1", "tiling::window --send-to-desktop 1")
 chunkcCmd({"cmd", "shift"}, "2", "tiling::window --send-to-desktop 2")
 chunkcCmd({"cmd", "shift"}, "3", "tiling::window --send-to-desktop 3")
