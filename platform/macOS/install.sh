@@ -269,7 +269,7 @@ configure_commit_signing() {
 
     echo "pinentry-program /usr/local/bin/pinentry-mac" >> ~/.gnupg/gpg-agent.conf
 
-    # gpg --full-generate-key
+    gpg --full-generate-key
     read -sp "Please enter the id of the key you just created: " KEY_ID
     KEY_OUTPUT=$(gpg --armor --export ${KEY_ID})
 
