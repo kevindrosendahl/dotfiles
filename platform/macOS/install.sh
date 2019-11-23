@@ -239,7 +239,7 @@ EOF
 
 start_yabai() {
     echo
-    [[ $(ask_yes_no "configure yabai?") -eq 0 ]] && return 0
+    [[ $(ask_yes_no "configure yabai") -eq 0 ]] && return 0
 
     echo "starting yabai"
     brew services run yabai
@@ -249,11 +249,64 @@ start_yabai() {
     brew services restart yabai
 }
 
+create_ssh_key() {
+    [[ $(ask_yes_no "create ssh key") -eq 0 ]] && return 0
+
+    DATESTAMP=$(date '+%m%d%y')
+    KEY_PATH=~/.ssh/id_ed25519-github-${DATESTAMP}
+    ssh-keygen -o -a 100 -t ed25519 -f ${KEY_PATH} -C kevindrosendahl@gmail.com
+
+    PUBLIC_KEY=$(cat "${KEY_PATH}.pub")
+    cat << EOF
+Please add the following public key to your Github profile:
+${PUBLIC_KEY}
+EOF
+    read -p "when complete, hit enter"
+}
+
+configure_commit_signing() {
+    [[ $(ask_yes_no "configure git signing") -eq 0 ]] && return 0
+
+    echo "pinentry-program /usr/local/bin/pinentry-mac" >> ~/.gnupg/gpg-agent.conf
+
+    # gpg --full-generate-key
+    read -sp "Please enter the id of the key you just created: " KEY_ID
+    KEY_OUTPUT=$(gpg --armor --export ${KEY_ID})
+
+    cat << EOF
+Please add the following public key to your Github profile:
+${KEY_OUTPUT}
+EOF
+    read -p "when complete, hit enter"
+
+    # Should prompt for password
+    echo "test" | gpg --clear-sign > /dev/null
+
+    # Need to get the signing
+    # Expect there to be a line that looks like sec   rsa4096/<SIGNING_KEY> 2019-11-23 [SC]
+    SIGNING_KEY=$(gpg --list-secret-keys --keyid-format LONG | grep 'sec' | awk '{print $2}' | awk -F'/' '{print $2}')
+    git config --global commit.gpgsign true
+    git config --global user.signingkey ${SIGNING_KEY}
+}
+
+configure_git() {
+    echo
+    [[ $(ask_yes_no "configure git") -eq 0 ]] && return 0
+
+    git config --global --replace-all "user.name" "Kevin Rosendahl"
+    git config --global --replace-all "user.email" "kevindrosendahl@gmail.com"
+
+    create_ssh_key
+    configure_commit_signing
+}
+
+
 start_services() {
     echo && echo "* configuring services"
     start_hammerspoon
     start_alfred
     start_yabai
+    configure_git
 }
 
 if [[ $(which brew &>/dev/null) -ne 0 ]]; then
