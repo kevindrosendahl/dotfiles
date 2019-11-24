@@ -3,7 +3,7 @@ set -u
 
 need_cmd() {
     if ! command -v "$1" > /dev/null 2>&1
-    then "please install $1"
+        then "please install $1"
     fi
 }
 
