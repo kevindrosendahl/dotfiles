@@ -1,47 +1,49 @@
 #!/usr/bin/env bash
 
-set -o errexit
+set -eu
 set -o pipefail
-set -o nounset
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PLATFORMS_DIR=${DIR}/platform
 
 DOTFILES=(
-	.tmux.conf
-	.vimrc
-	.zshrc
+    .config/alacritty/alacritty.yml
+    .tmux.conf
+    .vimrc
+    .zshrc
 )
 
 DOTDIRS=(
-	.vim
-	.zsh
+    .vim
+    .zsh
 )
 
 sync() {
-	echo && echo "* syncing dotfiles"
-	for d in ${DOTFILES[@]}; do
-		ln -sfF ${DIR}/${d} ${HOME}/${d}
-	done
+    echo && echo "* syncing dotfiles"
+    for d in ${DOTFILES[@]}; do
+        DOTFILE_DIR=$(dirname ${d})
+        mkdir -p "${HOME}/${DOTFILE_DIR}"
+        ln -sfF "${DIR}/${d}" "${HOME}/${d}"
+    done
 
-	for d in ${DOTDIRS[@]}; do
-		ln -sfF ${DIR}/${d} ${HOME}
-	done
+    for d in ${DOTDIRS[@]}; do
+        ln -sfF "${DIR}/${d}" ${HOME}
+    done
 }
 
 UNAME=$(uname)
 case ${UNAME} in
-	Darwin) 
-		PLATFORM_DIR=${PLATFORMS_DIR}/macOS
-		;;
+    Darwin)
+        PLATFORM_DIR="${PLATFORMS_DIR}/macOS"
+        ;;
 
-	Linux)
-		PLATFORM_DIR=${PLATFORMS_DIR}/linux
-		;;
+    Linux)
+        PLATFORM_DIR="${PLATFORMS_DIR}/linux"
+        ;;
 
-	*)
-		echo "unsupported platform ${UNAME}" && exit 1	
-    ;;
+    *)
+        echo "unsupported platform ${UNAME}" && exit 1
+        ;;
 esac
 
 # install
