@@ -323,6 +323,8 @@ System Preferences
         - Uncheck "Show Spotlight search"
   - Notifications
     - Uncheck "Show message preview"
+    - Messages
+      - Uncheck "Play sound for notifications"
   - Accessibility
     - Display
       - Check "Reduce motion"
