@@ -1,3 +1,26 @@
+-- fullscreen windows when they're opened
+-- only fullscreen it if it's taking up more than a third of the screen
+hs.window.filter.new(true):subscribe(hs.window.filter.windowCreated, function(win, appName, event)
+    local frame = win:frame()
+    local screen = win:screen()
+    local max = screen:frame()
+
+    frameArea = frame.w * frame.h
+    print(frameArea)
+    maxArea = max.w * max.h
+    print(maxArea)
+
+    if frameArea * 3 < maxArea then
+        return
+    end
+
+    frame.x = max.x
+    frame.y = max.y
+    frame.w = max.w
+    frame.h = max.h
+    win:setFrame(frame)
+end)
+
 -- set window resizing hotkeys
 function resizeWindow(mods, key, resizeFn)
     hs.hotkey.bind(mods, key, function()
