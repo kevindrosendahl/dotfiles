@@ -16,6 +16,7 @@ DOTFILES=(
     prompt
     local
     syntax-highlighting
+    fzf
     rust
     golang
 )

@@ -1,10 +1,11 @@
 tap "homebrew/bundle"
 tap "homebrew/core"
 tap "homebrew/services"
-tap "koekeishiya/formulae"
 
 brew "awscli"
+brew "bat"
 brew "coreutils"
+brew "fzf"
 brew "gcc"
 brew "gdb"
 brew "git"
@@ -27,10 +28,8 @@ brew "vim"
 brew "watch"
 brew "wget"
 brew "xz"
-brew "yabai"
 brew "zsh"
 brew "zsh-syntax-highlighting"
-
 
 cask "1password"
 cask "alacritty"

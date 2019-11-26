@@ -179,7 +179,6 @@ set_options() {
 
 DOTFILES=(
     .tmux.platform.conf
-    .yabairc
 )
 
 DOTDIRS=(
@@ -238,18 +237,6 @@ Please configure the following options for hammerspoon:
     - Alfred macOS Dark
 EOF
     read -p "when complete, hit enter"
-}
-
-configure_yabai() {
-    echo
-    [[ $(ask_yes_no "configure yabai") -eq 0 ]] && return 0
-
-    echo "starting yabai"
-    brew services run yabai
-    echo "Please allow yabai accessibility permissions"
-    read -p "when complete, hit enter"
-    echo "restarting yabai"
-    brew services restart yabai
 }
 
 create_ssh_key() {
@@ -336,7 +323,6 @@ configure_services() {
     echo && echo "* configuring services"
     configure_hammerspoon
     configure_alfred
-    configure_yabai
     configure_git
     prompt_further_setup
 }
