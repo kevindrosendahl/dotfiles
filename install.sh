@@ -56,3 +56,4 @@ ${PLATFORM_DIR}/install.sh
 sync
 [ -f ${PLATFORM_DIR}/post-sync-hook.sh ] && ${PLATFORM_DIR}/post-sync-hook.sh
 
+true
