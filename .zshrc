@@ -1,4 +1,4 @@
-[ -z "$TMUX"  ] && tmux new-session
+[ -z "$TMUX"  ] && { tmux attach || tmux new-session }
 
 export ZSH=~/.zsh
 
