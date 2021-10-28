@@ -1,21 +1,36 @@
+use crate::process::{ask_for_root, run, run_as_root, run_with_spinner};
+use crate::prompt::{BEER, COMPUTER};
+use crate::sync::sync_dotfiles;
+use std::path::Path;
+
 #[cfg(target_arch = "arm")]
-const BREW_PATH: &str = "/opt/homebrew/bin/brew";
+const BREW: &str = "/opt/homebrew/bin/brew";
+
+#[cfg(target_arch = "arm")]
+const BREW_PATH: &str = "/opt/homebrew/bin";
 
 #[cfg(target_arch = "x86_64")]
-const BREW_PATH: &str = "/usr/local/bin/brew";
+const BREW: &str = "/usr/local/bin/brew";
+
+#[cfg(target_arch = "x86_64")]
+const BREW_PATH: &str = "/usr/local/bin";
 
 pub(crate) fn install() {
     install_brew();
     set_options();
+    sync_dotfiles(
+        dirs::home_dir()
+            .unwrap()
+            .join("src/github.com/kevindrosendahl/dotfiles/macOS/dotfiles")
+            .as_path(),
+    );
+    set_shell();
 }
 
 fn install_brew() {
-    println!(
-        "{} installing homebrew and homebrew packages",
-        crate::prompt::BEER
-    );
+    println!("{} installing homebrew and homebrew packages", BEER);
 
-    crate::process::run_with_spinner(
+    run_with_spinner(
         "installing brew",
         "finished installing brew",
         "/bin/bash",
@@ -25,10 +40,10 @@ fn install_brew() {
     ],
     );
 
-    crate::process::run_with_spinner(
+    run_with_spinner(
         "installing brew packages",
         "finished installing brew packages",
-        BREW_PATH,
+        BREW,
         vec!["bundle"],
     );
 }
@@ -36,17 +51,17 @@ fn install_brew() {
 fn set_options() {
     println!(
         "\n{} setting options (may require restart to take effect)",
-        crate::prompt::COMPUTER
+        COMPUTER
     );
 
     // Ask for admin password up front.
-    crate::process::ask_for_root();
+    ask_for_root();
 
     // Disable the sound effects on boot.
-    crate::process::run_as_root("nvram", vec!["SystemAudioVolume=\" \""]);
+    run_as_root("nvram", vec!["SystemAudioVolume=\" \""]);
 
     // Restart automatically if the computer freezes.
-    crate::process::run_as_root("systemsetup", vec!["-setrestartfreeze", "on"]);
+    run_as_root("systemsetup", vec!["-setrestartfreeze", "on"]);
 
     // Set system defaults. Mostly derived from https://github.com/mathiasbynens/dotfiles/blob/master/.macos
     let mut defaults = vec![
@@ -262,7 +277,7 @@ fn set_options() {
         args.append(&mut vec!["write".to_string(), default.domain, default.key]);
         args.append(&mut default.value.to_args());
 
-        crate::process::run(
+        run(
             format!("setting default ({})", default.description).as_str(),
             "defaults",
             args,
@@ -272,10 +287,33 @@ fn set_options() {
     // Kill effected apps.
     let effected_apps = vec!["Activity Monitor", "Dock", "Finder", "SystemUIServer"];
     for app in effected_apps {
-        crate::process::run(format!("killing {}", app).as_str(), "killall", vec![app]);
+        run(format!("killing {}", app).as_str(), "killall", vec![app]);
     }
 
     println!("finished setting options");
+}
+
+fn set_shell() {
+    println!("\nconfiguring zsh to be default shell");
+
+    let zsh = which::which_in("zsh", Some(Path::new(BREW_PATH)), Path::new("/")).unwrap();
+    let zsh = zsh.to_str().unwrap();
+    let shells = std::fs::read_to_string("/etc/shells").unwrap();
+    if !shells.lines().any(|shell| shell.eq(zsh)) {
+        run_as_root(
+            "sh",
+            vec!["-c", format!("'echo {} >> /etc/shells'", zsh).as_str()],
+        )
+    }
+
+    run_as_root(
+        "chsh",
+        vec![
+            "-s",
+            zsh,
+            users::get_current_username().unwrap().to_str().unwrap(),
+        ],
+    );
 }
 
 #[derive(Clone)]
@@ -292,14 +330,14 @@ impl DefaultValue {
         match self {
             DefaultValue::Array(a) => {
                 let mut s = vec!["-array".to_string()];
-                let mut args = a.iter().map(|s| format!("\"{}\"", s)).collect();
+                let mut args = a.iter().map(|s| format!("'{}'", s)).collect();
                 s.append(&mut args);
                 s
             }
             DefaultValue::Bool(b) => vec!["-bool".to_string(), b.to_string()],
             DefaultValue::Float(f) => vec!["-float".to_string(), f.to_string()],
             DefaultValue::Int(i) => vec!["-int".to_string(), i.to_string()],
-            DefaultValue::String(s) => vec!["-string".to_string(), format!("\"{}\"", s)],
+            DefaultValue::String(s) => vec!["-string".to_string(), format!("'{}'", s)],
         }
     }
 }

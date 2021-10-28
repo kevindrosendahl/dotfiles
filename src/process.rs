@@ -54,7 +54,7 @@ pub(crate) fn run_with_spinner<S>(
 pub(crate) fn ask_for_root() {
     if is_dry_run() {
         println!("would ask for sudo");
-        return
+        return;
     }
 
     cmd!("sudo", "-v").run().unwrap();
@@ -73,7 +73,7 @@ where
 fn is_dry_run() -> bool {
     if let Ok(dry_run) = env::var(DRY_RUN_ENV_VAR) {
         let dry_run: i32 = dry_run.parse().unwrap();
-        return dry_run > 0
+        return dry_run > 0;
     }
 
     false
