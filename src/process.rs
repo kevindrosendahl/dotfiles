@@ -46,8 +46,7 @@ where
     S: IntoIterator,
     S::Item: Into<String>,
 {
-    let mut args2 = Vec::new();
-    args2.push(command.to_string());
-    args2.append(&mut args.into_iter().map(|s| s.into()).collect());
-    run("running sudo command", "sudo", &args2);
+    let mut sudo_args = vec![command.to_string()];
+    sudo_args.append(&mut args.into_iter().map(|s| s.into()).collect());
+    run("running sudo command", "sudo", &sudo_args);
 }
