@@ -28,3 +28,8 @@ done
 # Sanity cleanup of PATH, which otherwise can grow duplicate entries (making
 # troubleshooting harder than it needs to be)
 typeset -U PATH
+
+export PATH="$HOME/.poetry/bin:$PATH"
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi

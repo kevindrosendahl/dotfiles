@@ -12,3 +12,4 @@ openApp({"cmd", "shift"}, "I", "/Users/kevinrosendahl/Applications/JetBrains Too
 openApp({"cmd", "shift"}, ",", "/Applications/Messages.app")
 openApp({"cmd", "shift"}, "S", "/Applications/Slack.app")
 openApp({"cmd", "shift"}, "X", "/Applications/Spotify.app")
+openApp({"cmd", "shift"}, "B", "/Applications/zoom.us.app")

@@ -50,7 +50,7 @@ end)
 resizeWindow({"cmd", "shift"}, "H", function(f, max)
     f.x = max.x
     f.y = max.y
-    f.w = max.w / 2
+    f.w = (max.w / 2)
     f.h = max.h
 end)
 
