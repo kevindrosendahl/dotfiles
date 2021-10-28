@@ -1,0 +1,15 @@
+function cdmongot() {
+    export MONGOT_PATH=~/src/github.com/10gen/mongot
+    alias m="make"
+    alias bazel="${MONGOT_PATH}/scripts/tools/bazelisk/run.sh"
+    alias b="bazel"
+    alias bb="bazel build"
+    alias br="bazel run"
+    alias bt="bazel test"
+    cd ${MONGOT_PATH}
+}
+
+function t2 { ~/Downloads/t2-v0.16.2-osx64/t2 ${1}/* }
+
+alias vpn='networksetup -connectpppoeservice "VPN Palo Alto"'
+alias buildtool=${HOME}/src/github.com/10gen/mongot/bazel-bin/src/go/cmd/buildtool/buildtool_/buildtool

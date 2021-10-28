@@ -3,6 +3,14 @@ name = "dotfiles"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
+console = "0.15"
+dirs = "4.0"
+duct = "0.13"
+git2 = "0.13"
+human-panic = "1.0"
+indicatif = "0.16"
+lazy_static = "1.4"
+nix = "0.23"
+sysctl = "0.4"
+users = "0.11"
