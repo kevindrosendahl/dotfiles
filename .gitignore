@@ -15,3 +15,8 @@
 platform/macOS/Brewfile.lock.json
 .zsh/data
 .zsh/local
+
+
+# Added by cargo
+
+/target
