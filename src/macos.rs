@@ -279,7 +279,7 @@ fn set_options() {
     // Kill effected apps.
     let effected_apps = vec!["Activity Monitor", "Dock", "Finder", "SystemUIServer"];
     for app in effected_apps {
-        crate::process::run(format!("killing {}", app).as_str(), "killall", app);
+        crate::process::run(format!("killing {}", app).as_str(), "killall", vec![app]);
     }
 
     println!("finished setting options");

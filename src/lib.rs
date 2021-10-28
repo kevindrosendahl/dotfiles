@@ -1,4 +1,4 @@
-mod install;
+pub mod install;
 mod process;
 mod prompt;
 
