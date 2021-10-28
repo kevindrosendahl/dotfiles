@@ -3,7 +3,7 @@ use std::env;
 use std::ffi::OsString;
 use std::io::Read;
 
-const DRY_RUN_ENV_VAR: &'static str = "DOTFILES_DRY_RUN";
+const DRY_RUN_ENV_VAR: &str = "DOTFILES_DRY_RUN";
 
 pub(crate) fn run<S>(description: &str, command: &str, args: S)
 where

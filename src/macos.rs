@@ -1,15 +1,8 @@
-use duct::cmd;
-use std::array::IntoIter;
-use std::collections::HashMap;
-use std::io::Read;
-use std::path::Path;
-use sysctl::Sysctl;
-
 #[cfg(target_arch = "arm")]
-const BREW_PATH: &'static str = "/opt/homebrew/bin/brew";
+const BREW_PATH: &str = "/opt/homebrew/bin/brew";
 
 #[cfg(target_arch = "x86_64")]
-const BREW_PATH: &'static str = "/usr/local/bin/brew";
+const BREW_PATH: &str = "/usr/local/bin/brew";
 
 pub(crate) fn install() {
     install_brew();
