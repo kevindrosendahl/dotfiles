@@ -5,6 +5,8 @@ edition = "2021"
 
 [dependencies]
 console = "0.15"
+chrono = "0.4"
+dialoguer = "0.9"
 dirs = "4.0"
 duct = "0.13"
 git2 = "0.13"

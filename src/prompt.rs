@@ -1,4 +1,5 @@
 use console::Emoji;
+use dialoguer::Input;
 use indicatif::{ProgressBar, ProgressStyle};
 
 pub static BEER: Emoji = Emoji("🍺", "");
@@ -13,4 +14,20 @@ pub(crate) fn spinner(message: &'static str) -> ProgressBar {
     );
     pb.enable_steady_tick(80);
     pb
+}
+
+pub(crate) fn wait_for_complete() {
+    Input::<String>::new()
+        .with_prompt("when complete, hit enter")
+        .allow_empty(true)
+        .interact()
+        .unwrap();
+}
+
+pub(crate) fn header(message: &str) -> String {
+    console::Style::new()
+        .bold()
+        .green()
+        .apply_to(message)
+        .to_string()
 }

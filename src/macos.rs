@@ -1,7 +1,10 @@
-use crate::process::{ask_for_root, run, run_as_root, run_with_spinner};
-use crate::prompt::{BEER, COMPUTER};
-use crate::sync::sync_dotfiles;
+use crate::{
+    process::{ask_for_root, run, run_as_root, run_with_spinner},
+    prompt::{header, wait_for_complete, BEER, COMPUTER},
+    sync::sync_dotfiles,
+};
 use std::path::Path;
+use duct::cmd;
 
 #[cfg(target_arch = "arm")]
 const BREW: &str = "/opt/homebrew/bin/brew";
@@ -25,10 +28,15 @@ pub(crate) fn install() {
             .as_path(),
     );
     set_shell();
+    configure_services();
 }
 
 fn install_brew() {
-    println!("{} installing homebrew and homebrew packages", BEER);
+    println!(
+        "{} {}",
+        header("installing homebrew and homebrew packages"),
+        BEER
+    );
 
     run_with_spinner(
         "installing brew",
@@ -50,7 +58,8 @@ fn install_brew() {
 
 fn set_options() {
     println!(
-        "\n{} setting options (may require restart to take effect)",
+        "\n{} {}",
+        header("setting options (may require restart to take effect)"),
         COMPUTER
     );
 
@@ -294,7 +303,7 @@ fn set_options() {
 }
 
 fn set_shell() {
-    println!("\nconfiguring zsh to be default shell");
+    println!("\n{}", header("configuring zsh to be default shell"));
 
     let zsh = which::which_in("zsh", Some(Path::new(BREW_PATH)), Path::new("/")).unwrap();
     let zsh = zsh.to_str().unwrap();
@@ -314,6 +323,71 @@ fn set_shell() {
             users::get_current_username().unwrap().to_str().unwrap(),
         ],
     );
+}
+
+fn configure_services() {
+    configure_hammerspoon();
+    configure_alfred();
+    configure_git();
+}
+
+fn configure_hammerspoon() {
+    println!("\n{}", header("configuring hammerspoon"));
+    run(
+        "opening hammerspoon",
+        "open",
+        vec!["/Applications/Hammerspoon.app"],
+    );
+    println!(
+        "Please configure the following options for hammerspoon:
+  - enable Launch Hammerspoon at login
+  - enable Show menu item
+  - disable Show dock icon
+  - Enable Accessibility"
+    );
+
+    wait_for_complete();
+}
+
+fn configure_alfred() {
+    println!("\n{}", header("configuring alfred"));
+    run(
+        "opening hammerspoon",
+        "open",
+        vec!["/Applications/Alfred 4.app"],
+    );
+    println!(
+        "Please configure the following options for Alfred:
+  General:
+    - enable Launch Alfred at login
+    - set Alfred Hotkey to cmd + space
+  Appearance:
+    - Alfred macOS Dark"
+    );
+
+    wait_for_complete();
+}
+
+fn configure_git() {
+    create_ssh_key();
+}
+
+fn create_ssh_key() {
+    let now = chrono::Local::now();
+    let now = now.format("%m%d%y");
+    let key_path = dirs::home_dir().unwrap().join(format!(".ssh/id_ed25519-github-{}", now));
+    run("generating ssh key", "ssh-keygen", vec!["-o", "-a" "100", "-t"]);
+
+
+    // KEY_PATH=~/.ssh/id_ed25519-github-${DATESTAMP}
+    // ssh-keygen -o -a 100 -t ed25519 -f ${KEY_PATH} -C kevindrosendahl@gmail.com
+    //
+    // PUBLIC_KEY=$(cat "${KEY_PATH}.pub")
+    // cat << EOF
+    // Please add the following public key to your Github profile:
+    // ${PUBLIC_KEY}
+    // EOF
+    // read -p "when complete, hit enter"
 }
 
 #[derive(Clone)]
