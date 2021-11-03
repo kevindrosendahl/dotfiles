@@ -6,6 +6,9 @@ set -o nounset
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+echo "installing macos"
+exit 0
+
 ask_yes_no() {
     read -p "${1}? [Y/n]: " -r
     if [[ ${REPLY} =~ ^(yes|y| ) ]] || [[ -z ${REPLY} ]]; then
@@ -175,25 +178,6 @@ set_options() {
     set -e
 
     echo "Done. Note that some of these changes require a logout/restart to take effect."
-}
-
-DOTFILES=(
-    .tmux.platform.conf
-)
-
-DOTDIRS=(
-    .hammerspoon
-)
-
-sync() {
-	echo && echo "* syncing macOS dotfiles"
-	for d in ${DOTFILES[@]}; do
-		ln -sfF ${DIR}/${d} ${HOME}/${d}
-	done
-
-	for d in ${DOTDIRS[@]}; do
-		ln -sfF ${DIR}/${d} ${HOME}
-	done
 }
 
 set_shell() {

@@ -4,41 +4,32 @@ set -eu
 set -o pipefail
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-PLATFORMS_DIR=${DIR}/platform
 
-DOTFILES=(
-    .config/alacritty/alacritty.yml
-    .tmux.conf
-    .vimrc
-    .zshrc
-)
+sync_dotfiles() {
+  local dotfiles_dir="${1}"
 
-DOTDIRS=(
-    .vim
-    .zsh
-)
+	# shellcheck disable=SC2207
+	local entries=($(ls -A "${dotfiles_dir}"))
 
-sync() {
-    echo && echo "* syncing dotfiles"
-    for d in ${DOTFILES[@]}; do
-        DOTFILE_DIR=$(dirname ${d})
-        mkdir -p "${HOME}/${DOTFILE_DIR}"
-        ln -sfF "${DIR}/${d}" "${HOME}/${d}"
-    done
-
-    for d in ${DOTDIRS[@]}; do
-        ln -sfF "${DIR}/${d}" ${HOME}
-    done
+	for entry in "${entries[@]}"
+	do
+	  local full_path="${dotfiles_dir}/${entry}"
+	  if [[ -f "${full_path}" ]]; then
+      ln -sfF "${full_path}" "${HOME}/${entry}"
+    elif [[ -d "${full_path}" ]]; then
+      ln -sfF "${full_path}" "${HOME}"
+    fi
+	done
 }
 
 UNAME=$(uname)
 case ${UNAME} in
     Darwin)
-        PLATFORM_DIR="${PLATFORMS_DIR}/macOS"
+        PLATFORM="macOS"
         ;;
 
     Linux)
-        PLATFORM_DIR="${PLATFORMS_DIR}/linux"
+        PLATFORM="linux"
         ;;
 
     *)
@@ -46,14 +37,6 @@ case ${UNAME} in
         ;;
 esac
 
-# install
-[ -f ${PLATFORM_DIR}/pre-install-hook.sh ] && ${PLATFORM_DIR}/pre-install-hook.sh
-${PLATFORM_DIR}/install.sh
-[ -f ${PLATFORM_DIR}/post-install-hook.sh ] && ${PLATFORM_DIR}/post-install-hook.sh
-
-# sync dotfiles
-[ -f ${PLATFORM_DIR}/pre-sync-hook.sh ] && ${PLATFORM_DIR}/pre-sync-hook.sh
-sync
-[ -f ${PLATFORM_DIR}/post-sync-hook.sh ] && ${PLATFORM_DIR}/post-sync-hook.sh
-
-true
+sync_dotfiles "${DIR}/dotfiles"
+sync_dotfiles "${DIR}/${PLATFORM}/dotfiles"
+"${DIR}"/"${PLATFORM}"/install.sh

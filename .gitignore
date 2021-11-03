@@ -12,6 +12,6 @@
 # General
 .DS_Store
 
-platform/macOS/Brewfile.lock.json
-.zsh/data
-.zsh/local
+macOS/Brewfile.lock.json
+dotfiles/.zsh/data
+dotfiles/.zsh/local
