@@ -25,6 +25,22 @@ install_brew() {
             'https://raw.githubusercontent.com/Homebrew/install/master/install' | ruby
 
         export PATH="/usr/local/bin:$PATH"
+        arch=$(uname -m)
+        case ${arch} in
+            x86_64)
+                BREW="/usr/local/bin/brew"
+                ;;
+
+            arm64)
+                BREW="/opt/homebrew/bin/brew"
+                ;;
+
+            *)
+                echo "unsupported architecture ${arch}" && exit 1
+                ;;
+        esac
+
+      eval "$(${BREW} shellenv)"
     fi
 }
 
