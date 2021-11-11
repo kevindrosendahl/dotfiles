@@ -22,14 +22,6 @@ case ${ARCH} in
       ;;
 esac
 
-# GNU utils
-have gls && alias ls='gls --color=auto -ahFG'
-have gls && alias ll='gls --color=auto -alhFG'
-have gsed && alias sed=gsed && alias esed='gsed -r'
-have grm && alias rm=grm
-have gxargs && alias xargs=gxargs
-
-
 if [[ "${APPLE_SILICON}" -eq 1 ]]; then
     export HOMEBREW_PREFIX="/opt/homebrew";
     export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
@@ -50,3 +42,10 @@ fi
 
 # syntax highlighting
 export _syntax_highlighting="${HOMEBREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+
+# GNU utils
+have gls && alias ls='gls --color=auto -ahFG'
+have gls && alias ll='gls --color=auto -alhFG'
+have gsed && alias sed=gsed && alias esed='gsed -r'
+have grm && alias rm=grm
+have gxargs && alias xargs=gxargs
