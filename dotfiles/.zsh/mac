@@ -5,10 +5,7 @@ function have() {
 ARCH=$(uname -m)
 case ${ARCH} in
   x86_64)
-      set +e
       IS_TRANSLATED="$(sysctl -n sysctl.proc_translated)" 2>/dev/null
-      set -e
-
       if [[ "${?}" -ne 0 ]] || [[ "${IS_TRANSLATED}" -ne 1 ]]; then
         APPLE_SILICON=0
       else
