@@ -24,7 +24,7 @@ sync_dotfiles() {
 
 install_tmux_plugins() {
   TPM_PATH="${HOME}/.tmux/plugins/tpm"
-  if [[ -d "${TPM_PATH}" ]]; then
+  if [[ ! -d "${TPM_PATH}" ]]; then
     mkdir -p "$(dirname "${TPM_PATH}")"
     git clone https://github.com/tmux-plugins/tpm "${TPM_PATH}"
   fi
