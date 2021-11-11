@@ -22,6 +22,16 @@ sync_dotfiles() {
 	done
 }
 
+install_tmux_plugins() {
+  TPM_PATH="${HOME}/.tmux/plugins/tpm"
+  if [[ -d "${TPM_PATH}" ]]; then
+    mkdir -p "$(dirname "${TPM_PATH}")"
+    git clone https://github.com/tmux-plugins/tpm "${TPM_PATH}"
+  fi
+
+  "${TPM_PATH}"/bin/install_plugins
+}
+
 UNAME=$(uname)
 case ${UNAME} in
     Darwin)
@@ -40,3 +50,4 @@ esac
 sync_dotfiles "${DIR}/dotfiles"
 sync_dotfiles "${DIR}/${PLATFORM}/dotfiles"
 "${DIR}"/"${PLATFORM}"/install.sh
+install_tmux_plugins
