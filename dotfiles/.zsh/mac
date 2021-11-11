@@ -32,8 +32,6 @@ have gsed && alias sed=gsed && alias esed='gsed -r'
 have grm && alias rm=grm
 have gxargs && alias xargs=gxargs
 
-# syntax highlighting
-export _syntax_highlighting="/usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 if [[ "${APPLE_SILICON}" -eq 1 ]]; then
     export HOMEBREW_PREFIX="/opt/homebrew";
@@ -52,3 +50,6 @@ else
     export MANPATH="/usr/local/share/man${MANPATH+:$MANPATH}:";
     export INFOPATH="/usr/local/share/info:${INFOPATH:-}";
 fi
+
+# syntax highlighting
+export _syntax_highlighting="${HOMEBREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
