@@ -1,5 +1,7 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =6
+let g:netrw_dirhistcnt =8
+let g:netrw_dirhist_8='/Users/kevin.rosendahl/.zsh'
+let g:netrw_dirhist_7='/Users/kevin.rosendahl/.tmux'
 let g:netrw_dirhist_6='/Users/kevinrosendahl/src/github.com/mongodb-labs/py-tpcc/.git'
 let g:netrw_dirhist_5='/Users/kevinrosendahl/.pyenv/versions'
 let g:netrw_dirhist_4='/private/var/tmp/_bazel_kevinrosendahl/b8d6dc4e571a76c2f9c357a26fe5e44d/execroot/com_xgen_mongot/external/org_golang_x_sys'
@@ -8,5 +10,3 @@ let g:netrw_dirhist_2='/Users/kevinrosendahl/scratch/mongodb/mongot/perf/base'
 let g:netrw_dirhist_1='/Users/kevinrosendahl/src/github.com/10gen/dsi/WORK/.bin'
 let g:netrw_dirhist_0='/private/var/tmp/_bazel_kevinrosendahl/b8d6dc4e571a76c2f9c357a26fe5e44d/external/mongot_release_1.0.0.576'
 let g:netrw_dirhist_9='/private/var/tmp/_bazel_kevinrosendahl/b8d6dc4e571a76c2f9c357a26fe5e44d/external/mongot_release_1.0.0.576/mongot_1.0.0.576_linux/bin/jdk'
-let g:netrw_dirhist_8='/private/var/tmp/_bazel_kevinrosendahl/b8d6dc4e571a76c2f9c357a26fe5e44d/external/mongot_release_1.0.0.576/mongot_1.0.0.576_linux/bin'
-let g:netrw_dirhist_7='/private/var/tmp/_bazel_kevinrosendahl/b8d6dc4e571a76c2f9c357a26fe5e44d/external/mongot_release_1.0.0.576/mongot_1.0.0.576_linux'

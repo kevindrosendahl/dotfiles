@@ -49,3 +49,5 @@ have gls && alias ll='gls --color=auto -alhFG'
 have gsed && alias sed=gsed && alias esed='gsed -r'
 have grm && alias rm=grm
 have gxargs && alias xargs=gxargs
+
+export PATH="/Users/kevin.rosendahl/Library/Python/3.9/bin:${PATH}"

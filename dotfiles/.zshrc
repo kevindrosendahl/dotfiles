@@ -1,4 +1,3 @@
-[ -z "$TMUX"  ] && { tmux attach || tmux new-session }
 
 export ZSH=~/.zsh
 
@@ -33,3 +32,5 @@ export PATH="$HOME/.poetry/bin:$PATH"
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
+
+[ -z "$TMUX"  ] && { tmux attach || tmux new-session }
