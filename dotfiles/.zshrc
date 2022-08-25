@@ -8,7 +8,7 @@ typeset -a DOTFILES
 DOTFILES=(
     options
     exports
-    completion
+    completion-local
     aliases
     platform
     history
@@ -34,3 +34,19 @@ if command -v pyenv 1>/dev/null 2>&1; then
 fi
 
 [ -z "$TMUX"  ] && { tmux attach || tmux new-session }
+
+fpath[1,0]=$HOME/.zsh/completion
+
+# The following lines were added by compinstall
+zstyle :compinstall filename '/Users/kevin.rosendahl/.zshrc'
+
+autoload -Uz compinit
+compinit 
+# End of lines added by compinstall
+
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
+
+export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
+
+[ -s "/Users/kevin.rosendahl/.jabba/jabba.sh" ] && source "/Users/kevin.rosendahl/.jabba/jabba.sh"

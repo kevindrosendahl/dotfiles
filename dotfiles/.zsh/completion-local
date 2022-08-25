@@ -1,3 +1,2 @@
 # Load, initialize advanced completion
 autoload -U compinit && compinit
-
