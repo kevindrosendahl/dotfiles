@@ -7,7 +7,6 @@ set -o nounset
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 echo "installing macos"
-exit 0
 
 ask_yes_no() {
     read -p "${1}? [Y/n]: " -r
@@ -227,7 +226,7 @@ configure_alfred() {
     [[ $(ask_yes_no "configure alfred") -eq 0 ]] && return 0
 
     echo "starting alfred"
-    open "/Applications/Alfred 4.app"
+    open "/Applications/Alfred 5.app"
     cat << EOF
 Please configure the following options for hammerspoon:
   General:
@@ -331,8 +330,8 @@ if [[ $(which brew &>/dev/null) -ne 0 ]]; then
 	echo "please install homebrew" && exit 1
 fi
 
-install_brew
-install_brew_packages
+# install_brew
+# install_brew_packages
 set_options
 sync
 set_shell

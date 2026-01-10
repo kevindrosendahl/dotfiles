@@ -45,7 +45,7 @@ function git_status() {
 }
 
 function precmd() {
-	export PS1="%F{blue}[%w %*]%f %F{green}$(whoami)%f at %F{blue}${HOSTNAME}%f in $(shortpath)$(git_status)
+	export PS1="%F{blue}[%w %*]%f $(shortpath)$(git_status)
 %(?.[%F{green}%?%f].[%F{red}%?%f]) "
 	export RPS1=""
 }
