@@ -1,3 +1,5 @@
+local home = os.getenv("HOME") or ""
+
 -- set application launch hotkeys
 function openApp(mods, key, app)
     hs.hotkey.bind(mods, key, function()
@@ -8,7 +10,7 @@ end
 openApp({"cmd"}, "return", "/Applications/Ghostty.app")
 openApp({"cmd", "shift"}, ";", "/System/Library/CoreServices/Finder.app")
 openApp({"cmd", "shift"}, "C", "/Applications/Google Chrome.app")
-openApp({"cmd", "shift"}, "I", "/Users/kevin.rosendahl/Applications/IntelliJ IDEA Ultimate.app")
+openApp({"cmd", "shift"}, "I", home .. "/Applications/IntelliJ IDEA Ultimate.app")
 openApp({"cmd", "shift"}, ",", "/System/Applications/Messages.app")
 openApp({"cmd", "shift"}, "S", "/Applications/Slack.app")
 openApp({"cmd", "shift"}, "X", "/Applications/Spotify.app")

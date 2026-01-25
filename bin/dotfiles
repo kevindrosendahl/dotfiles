@@ -1,0 +1,181 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+log() {
+  printf '%s\n' "$*"
+}
+
+die() {
+  printf '%s\n' "$*" >&2
+  exit 1
+}
+
+backup_dir=""
+
+ensure_backup_dir() {
+  if [[ -z "${backup_dir}" ]]; then
+    backup_dir="${HOME}/.dotfiles-backup/$(date +%Y%m%d%H%M%S)"
+    mkdir -p "${backup_dir}"
+  fi
+}
+
+backup_existing() {
+  local dest="${1}"
+  ensure_backup_dir
+  mv "${dest}" "${backup_dir}/"
+}
+
+link_item() {
+  local src="${1}"
+  local dest="${2}"
+
+  if [[ -L "${dest}" ]]; then
+    local target
+    target="$(readlink "${dest}")"
+    if [[ "${target}" == "${src}" ]]; then
+      return 0
+    fi
+    rm -f "${dest}"
+  elif [[ -e "${dest}" ]]; then
+    backup_existing "${dest}"
+  fi
+
+  ln -s "${src}" "${dest}"
+}
+
+sync_dotfiles() {
+  local dotfiles_dir="${1}"
+
+  while IFS= read -r -d '' full_path; do
+    local entry
+    entry="$(basename "${full_path}")"
+    [[ "${entry}" == "." || "${entry}" == ".." ]] && continue
+    link_item "${full_path}" "${HOME}/${entry}"
+  done < <(find "${dotfiles_dir}" -mindepth 1 -maxdepth 1 -print0)
+}
+
+install_tmux_plugins() {
+  local tpm_path
+  tpm_path="${HOME}/.tmux/plugins/tpm"
+  if [[ ! -d "${tpm_path}" ]]; then
+    mkdir -p "$(dirname "${tpm_path}")"
+    git clone https://github.com/tmux-plugins/tpm "${tpm_path}"
+  fi
+
+  "${tpm_path}"/bin/install_plugins
+}
+
+platform_install() {
+  local uname_out
+  uname_out="$(uname)"
+
+  case "${uname_out}" in
+    Darwin)
+      "${ROOT_DIR}/macOS/install.sh"
+      ;;
+    Linux)
+      "${ROOT_DIR}/linux/install.sh"
+      ;;
+    *)
+      die "unsupported platform ${uname_out}"
+      ;;
+  esac
+}
+
+platform_name() {
+  local uname_out
+  uname_out="$(uname)"
+
+  case "${uname_out}" in
+    Darwin)
+      printf '%s' "macOS"
+      ;;
+    Linux)
+      printf '%s' "linux"
+      ;;
+    *)
+      die "unsupported platform ${uname_out}"
+      ;;
+  esac
+}
+
+doctor() {
+  local missing=()
+  local warnings=()
+  local cmd
+
+  for cmd in git curl; do
+    command -v "${cmd}" >/dev/null 2>&1 || missing+=("${cmd}")
+  done
+
+  if [[ "$(uname)" == "Darwin" ]]; then
+    command -v brew >/dev/null 2>&1 || warnings+=("homebrew")
+  fi
+
+  if [[ ${#missing[@]} -gt 0 ]]; then
+    log "Missing required commands: ${missing[*]}"
+    return 1
+  fi
+
+  if [[ ${#warnings[@]} -gt 0 ]]; then
+    log "Warnings (optional but recommended): ${warnings[*]}"
+  fi
+
+  log "Doctor OK"
+}
+
+usage() {
+  cat <<'USAGE'
+Usage: bin/dotfiles [command]
+
+Commands:
+  all        Link dotfiles, run platform install, install tmux plugins (default)
+  link       Link dotfiles into $HOME
+  platform   Run platform-specific install script
+  tmux       Install tmux plugins via TPM
+  doctor     Check prerequisites
+  help       Show this help
+USAGE
+}
+
+main() {
+  local cmd="${1:-all}"
+
+  case "${cmd}" in
+    all)
+      local platform
+      platform="$(platform_name)"
+      sync_dotfiles "${ROOT_DIR}/dotfiles"
+      sync_dotfiles "${ROOT_DIR}/${platform}/dotfiles"
+      platform_install
+      install_tmux_plugins
+      ;;
+    link)
+      local platform
+      platform="$(platform_name)"
+      sync_dotfiles "${ROOT_DIR}/dotfiles"
+      sync_dotfiles "${ROOT_DIR}/${platform}/dotfiles"
+      ;;
+    platform)
+      platform_install
+      ;;
+    tmux)
+      install_tmux_plugins
+      ;;
+    doctor)
+      doctor
+      ;;
+    help|-h|--help)
+      usage
+      ;;
+    *)
+      usage
+      exit 1
+      ;;
+  esac
+}
+
+main "$@"

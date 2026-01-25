@@ -1,8 +1,9 @@
 
-export ZSH=~/.zsh
+export ZSH="$HOME/.zsh"
 
 # Data directory
-[[ -d $ZSH/data ]] || mkdir $ZSH/data
+[[ -d "$ZSH/data" ]] || mkdir -p "$ZSH/data"
+[[ -d "$ZSH/cache" ]] || mkdir -p "$ZSH/cache"
 
 typeset -a DOTFILES
 DOTFILES=(
@@ -24,29 +25,31 @@ for file in $DOTFILES; do
     [[ -f $file ]] && source $file
 done
 
-# Sanity cleanup of PATH, which otherwise can grow duplicate entries (making
-# troubleshooting harder than it needs to be)
-typeset -U PATH
-
 export PATH="$HOME/.poetry/bin:$PATH"
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 
-[ -z "$TMUX"  ] && { tmux attach || tmux new-session }
+if [[ -z "${TMUX-}" && -n "${PS1-}" && -t 1 ]]; then
+  tmux attach || tmux new-session
+fi
 
 fpath[1,0]=$HOME/.zsh/completion
 
 # The following lines were added by compinstall
-zstyle :compinstall filename '/Users/kevin.rosendahl/.zshrc'
+zstyle :compinstall filename "$HOME/.zshrc"
+
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
 
 autoload -Uz compinit
 compinit 
 # End of lines added by compinstall
 
-zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path ~/.zsh/cache
-
 export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
 
-[ -s "/Users/kevin.rosendahl/.jabba/jabba.sh" ] && source "/Users/kevin.rosendahl/.jabba/jabba.sh"
+[ -s "$HOME/.jabba/jabba.sh" ] && source "$HOME/.jabba/jabba.sh"
+
+# Sanity cleanup of PATH, which otherwise can grow duplicate entries (making
+# troubleshooting harder than it needs to be)
+typeset -U PATH

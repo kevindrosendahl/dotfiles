@@ -1,2 +1,1 @@
-# Load, initialize advanced completion
-autoload -U compinit && compinit
+# Reserved for local completion extensions.
