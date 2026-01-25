@@ -45,17 +45,12 @@ install_brew() {
 
 install_brew_packages() {
     echo && echo "* installing brew packages"
-    cd ${DIR}
+    cd "${DIR}"
 
-    set +e
-    brew bundle
-
-    if [[ "${?}" -ne 0 ]]; then
-        set -e
+    if ! brew bundle; then
         echo "for some reason brew seems to be having a hard time installing python. a retry usually works. retrying now"
         brew bundle
     fi
-    set -e
 }
 
 # much of this gleamed from https://github.com/mathiasbynens/dotfiles/blob/master/.macos
@@ -218,7 +213,7 @@ Please configure the following options for hammerspoon:
   - disable Show dock icon
   - Enable Accessibility
 EOF
-    read -p "when complete, hit enter"
+    read -r -p "when complete, hit enter"
 }
 
 configure_alfred() {
@@ -235,7 +230,7 @@ Please configure the following options for hammerspoon:
   Appearance:
     - Alfred macOS Dark
 EOF
-    read -p "when complete, hit enter"
+    read -r -p "when complete, hit enter"
 }
 
 create_ssh_key() {
@@ -243,14 +238,14 @@ create_ssh_key() {
 
     DATESTAMP=$(date '+%m%d%y')
     KEY_PATH=~/.ssh/id_ed25519-github-${DATESTAMP}
-    ssh-keygen -o -a 100 -t ed25519 -f ${KEY_PATH} -C kevindrosendahl@gmail.com
+    ssh-keygen -o -a 100 -t ed25519 -f "${KEY_PATH}" -C kevindrosendahl@gmail.com
 
     PUBLIC_KEY=$(cat "${KEY_PATH}.pub")
     cat << EOF
 Please add the following public key to your Github profile:
 ${PUBLIC_KEY}
 EOF
-    read -p "when complete, hit enter"
+    read -r -p "when complete, hit enter"
 }
 
 configure_commit_signing() {
@@ -259,14 +254,15 @@ configure_commit_signing() {
     echo "pinentry-program /usr/local/bin/pinentry-mac" >> ~/.gnupg/gpg-agent.conf
 
     gpg --full-generate-key
-    read -sp "Please enter the id of the key you just created: " KEY_ID
-    KEY_OUTPUT=$(gpg --armor --export ${KEY_ID})
+    read -r -s -p "Please enter the id of the key you just created: " KEY_ID
+    echo
+    KEY_OUTPUT=$(gpg --armor --export "${KEY_ID}")
 
     cat << EOF
 Please add the following public key to your Github profile:
 ${KEY_OUTPUT}
 EOF
-    read -p "when complete, hit enter"
+    read -r -p "when complete, hit enter"
 
     # Should prompt for password
     echo "test" | gpg --clear-sign > /dev/null
@@ -276,7 +272,7 @@ EOF
     # sec   rsa4096/<SIGNING_KEY> 2019-11-23 [SC]
     SIGNING_KEY=$(gpg --list-secret-keys --keyid-format LONG | grep 'sec' | awk '{print $2}' | awk -F'/' '{print $2}')
     git config --global commit.gpgsign true
-    git config --global user.signingkey ${SIGNING_KEY}
+    git config --global user.signingkey "${SIGNING_KEY}"
 }
 
 configure_git() {
@@ -315,7 +311,7 @@ System Preferences
     - Display
       - Check "Reduce motion"
 EOF
-  read -p "when complete, hit enter"
+  read -r -p "when complete, hit enter"
 }
 
 configure_services() {
@@ -326,8 +322,9 @@ configure_services() {
     prompt_further_setup
 }
 
-if [[ $(which brew &>/dev/null) -ne 0 ]]; then
-	echo "please install homebrew" && exit 1
+if ! command -v brew >/dev/null 2>&1; then
+  echo "please install homebrew" >&2
+  exit 1
 fi
 
 # install_brew

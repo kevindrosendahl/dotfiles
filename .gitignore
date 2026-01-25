@@ -13,7 +13,9 @@
 .DS_Store
 
 macOS/Brewfile.lock.json
-dotfiles/.zsh/data/**
+dotfiles/.vim/.netrwhist
+dotfiles/.zsh/data/
 dotfiles/.zsh/local
-dotfiles/.zsh/cache
-dotfiles/.zsh/completion
+dotfiles/.zsh/cache/
+dotfiles/.zsh/completion/
+dotfiles/.zsh/.zcompdump*
