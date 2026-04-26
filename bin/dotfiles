@@ -57,16 +57,6 @@ sync_dotfiles() {
   done < <(find "${dotfiles_dir}" -mindepth 1 -maxdepth 1 -print0)
 }
 
-install_tmux_plugins() {
-  local tpm_path
-  tpm_path="${HOME}/.tmux/plugins/tpm"
-  if [[ ! -d "${tpm_path}" ]]; then
-    mkdir -p "$(dirname "${tpm_path}")"
-    git clone https://github.com/tmux-plugins/tpm "${tpm_path}"
-  fi
-
-  "${tpm_path}"/bin/install_plugins
-}
 
 platform_install() {
   local uname_out
@@ -132,10 +122,9 @@ usage() {
 Usage: bin/dotfiles [command]
 
 Commands:
-  all        Link dotfiles, run platform install, install tmux plugins (default)
+  all        Link dotfiles, run platform install (default)
   link       Link dotfiles into $HOME
   platform   Run platform-specific install script
-  tmux       Install tmux plugins via TPM
   doctor     Check prerequisites
   help       Show this help
 USAGE
@@ -151,7 +140,6 @@ main() {
       sync_dotfiles "${ROOT_DIR}/dotfiles"
       sync_dotfiles "${ROOT_DIR}/${platform}/dotfiles"
       platform_install
-      install_tmux_plugins
       ;;
     link)
       local platform
@@ -161,9 +149,6 @@ main() {
       ;;
     platform)
       platform_install
-      ;;
-    tmux)
-      install_tmux_plugins
       ;;
     doctor)
       doctor

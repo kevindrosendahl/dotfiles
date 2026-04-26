@@ -33,9 +33,6 @@ set_options() {
     # Disable the sound effects on boot
     sudo nvram SystemAudioVolume=" "
 
-    # Restart automatically if the computer freezes
-    sudo systemsetup -setrestartfreeze on
-
     # Enable dark interface
     defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"
 
@@ -95,9 +92,6 @@ set_options() {
 
     # Enable Force Click on trackpad
     defaults write NSGlobalDomain com.apple.trackpad.forceClick -bool true
-
-    # Reduce motion (accessibility)
-    defaults write com.apple.universalaccess reduceMotion -bool true
 
     # Require password immediately after sleep or screen saver begins
     defaults write com.apple.screensaver askForPassword -int 1
