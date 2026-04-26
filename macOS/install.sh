@@ -20,11 +20,7 @@ ask_yes_no() {
 install_brew_packages() {
     echo && echo "* installing brew packages"
     cd "${DIR}"
-
-    if ! brew bundle; then
-        echo "for some reason brew seems to be having a hard time installing python. a retry usually works. retrying now"
-        brew bundle
-    fi
+    brew bundle
 }
 
 # much of this gleamed from https://github.com/mathiasbynens/dotfiles/blob/master/.macos
@@ -62,16 +58,53 @@ set_options() {
     # Disable auto-correct
     defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 
-    # Trackpad: enable tap to click for this user and for the login screen
+    # Disable press-and-hold accent picker so held keys repeat
+    defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+
+    # Don't minimize windows when double-clicking the title bar
+    defaults write NSGlobalDomain AppleMiniaturizeOnDoubleClick -bool false
+
+    # Tab through all controls in dialogs, not just text fields
+    defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
+
+    # Disable window open/close animations
+    defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
+
+    # Near-instant window resize
+    defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
+
+    # Expand save panels by default
+    defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+    defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
+
+    # Save to disk by default, not iCloud
+    defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+
+    # Show all file extensions in Finder
+    defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+
+    # Trackpad: enable tap to click for built-in trackpad, Magic Trackpad,
+    # current user, and login screen
+    defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
     defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
     defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
     defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
+
+    # Mouse tracking speed
+    defaults write NSGlobalDomain com.apple.mouse.scaling -float 2.5
+
+    # Enable Force Click on trackpad
+    defaults write NSGlobalDomain com.apple.trackpad.forceClick -bool true
+
+    # Reduce motion (accessibility)
+    defaults write com.apple.universalaccess reduceMotion -bool true
 
     # Require password immediately after sleep or screen saver begins
     defaults write com.apple.screensaver askForPassword -int 1
     defaults write com.apple.screensaver askForPasswordDelay -int 0
 
     # Save screenshots to the ~/.screenshots
+    mkdir -p "${HOME}/.screenshots"
     defaults write com.apple.screencapture location -string "${HOME}/.screenshots"
 
     # Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
@@ -86,6 +119,27 @@ set_options() {
     # Display full POSIX path as Finder window title
     defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
 
+    # Default to list view
+    defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+
+    # Search current folder by default (not whole Mac)
+    defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+
+    # Desktop disk visibility: hide internal, show external + removable
+    defaults write com.apple.finder ShowHardDrivesOnDesktop -bool false
+    defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
+    defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true
+
+    # Don't warn when changing a file's extension
+    defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+
+    # Sort folders first when sorting by name
+    defaults write com.apple.finder _FXSortFoldersFirst -bool true
+
+    # Show path bar and status bar in Finder windows
+    defaults write com.apple.finder ShowPathbar -bool true
+    defaults write com.apple.finder ShowStatusBar -bool true
+
     # Avoid creating .DS_Store files on network or USB volumes
     defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
     defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
@@ -96,8 +150,8 @@ set_options() {
     # Orient the Dock on the left
     defaults write com.apple.dock orientation -string "left"
 
-    # Set the icon size of Dock items to 30 pixels
-    defaults write com.apple.dock tilesize -int 30
+    # Set the icon size of Dock items to 45 pixels
+    defaults write com.apple.dock tilesize -int 45
 
     # Remove the auto-hiding Dock delay
     defaults write com.apple.dock autohide-delay -float 0
@@ -108,8 +162,25 @@ set_options() {
     # Autohide the Dock
     defaults write com.apple.dock autohide -int 1
 
-    # Autohide the menu bar
+    # Don't auto-rearrange Spaces based on most recent use
+    defaults write com.apple.dock mru-spaces -bool false
+
+    # Hide "Recent applications" section in Dock
+    defaults write com.apple.dock show-recents -bool false
+
+    # Disable Dock launch-bounce animation
+    defaults write com.apple.dock launchanim -bool false
+
+    # Minimize windows into their app icon, not a separate Dock slot
+    defaults write com.apple.dock minimize-to-application -bool true
+
+    # Autohide the menu bar always (System Settings -> Control Center ->
+    # "Automatically hide and show the menu bar" -> "Always"). Both keys
+    # are required on macOS 13+; setting only _HIHideMenuBar is ignored
+    # because AppleMenuBarVisibleInFullscreen wins. Takes effect after
+    # logout/reboot — killall doesn't reliably pick it up on Sequoia+.
     defaults write NSGlobalDomain _HIHideMenuBar -bool true
+    defaults write NSGlobalDomain AppleMenuBarVisibleInFullscreen -bool false
 
     # Speed up Mission Control animations
     defaults write com.apple.dock expose-animation-duration -float 0.1
@@ -136,24 +207,20 @@ set_options() {
     defaults write com.apple.dock wvous-br-corner -int 0
     defaults write com.apple.dock wvous-br-modifier -int 0
 
-    # Set up control strip defaults
-    defaults write com.apple.controlstrip FullCustomized -array \
-      'com.apple.system.group.brightness' \
-      'com.apple.system.group.keyboard-brightness' \
-      'com.apple.system.group.media' \
-      'com.apple.system.group.volume' \
-      'com.apple.system.screen-lock'
+    # Show battery percentage in the menu bar (Control Center on macOS 11+)
+    defaults -currentHost write com.apple.controlcenter BatteryShowPercentage -bool true
 
-    defaults write com.apple.controlstrip MiniCustomized -array \
-      'com.apple.system.brightness' \
-      'com.apple.system.mute' \
-      'com.apple.system.volume'
+    # Menu bar clock: day-of-week + AM/PM, no date
+    defaults write com.apple.menuextra.clock ShowDate -int 0
+    defaults write com.apple.menuextra.clock ShowDayOfWeek -int 1
+    defaults write com.apple.menuextra.clock ShowAMPM -int 1
 
-    # Show battery percentage in the menu bar
-    defaults write com.apple.menuextra.battery ShowPercent -string "YES"
+    # Stop Time Machine from prompting on every new disk
+    defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
 
     set +e
     for app in "Activity Monitor" \
+          "ControlCenter" \
           "Dock" \
           "Finder" \
           "SystemUIServer"; do
