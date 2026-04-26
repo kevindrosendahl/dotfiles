@@ -1,10 +1,5 @@
 SHELLCHECK ?= shellcheck
-SHELLCHECK_SOURCES := \
-	bootstrap.sh \
-	install.sh \
-	macOS/install.sh \
-	linux/install.sh \
-	bin/dotfiles
+SHELLCHECK_SOURCES := $(shell find . -type f \( -name '*.sh' -o -path './bin/*' \) ! -path './.git/*')
 
 .PHONY: check shellcheck
 

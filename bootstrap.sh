@@ -11,6 +11,10 @@ need_cmd() {
 need_cmd git
 need_cmd curl
 
+if [ "$(uname)" = "Darwin" ]; then
+    need_cmd brew
+fi
+
 set -e
 
 # Clone dotfiles to ${HOME}/src/github.com/kevindrosendahl/dotfiles

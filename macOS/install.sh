@@ -17,32 +17,6 @@ ask_yes_no() {
     fi
 }
 
-install_brew() {
-    if ! command -v brew >/dev/null; then
-        echo && echo "installing Homebrew"
-        curl -fsS \
-            'https://raw.githubusercontent.com/Homebrew/install/master/install' | ruby
-
-        export PATH="/usr/local/bin:$PATH"
-        arch=$(uname -m)
-        case ${arch} in
-            x86_64)
-                BREW="/usr/local/bin/brew"
-                ;;
-
-            arm64)
-                BREW="/opt/homebrew/bin/brew"
-                ;;
-
-            *)
-                echo "unsupported architecture ${arch}" && exit 1
-                ;;
-        esac
-
-      eval "$(${BREW} shellenv)"
-    fi
-}
-
 install_brew_packages() {
     echo && echo "* installing brew packages"
     cd "${DIR}"
@@ -195,8 +169,8 @@ set_shell() {
   local shell_path;
   shell_path="$(which zsh)"
 
-  if ! grep "$shell_path" /etc/shells > /dev/null 2>&1 ; then
-    sudo sh -c "echo $shell_path >> /etc/shells"
+  if ! grep -qxF "$shell_path" /etc/shells ; then
+    sudo sh -c "echo \"$shell_path\" >> /etc/shells"
   fi
   sudo chsh -s "$shell_path" "$USER"
 }
@@ -251,7 +225,7 @@ EOF
 configure_commit_signing() {
     [[ $(ask_yes_no "configure git signing") -eq 0 ]] && return 0
 
-    echo "pinentry-program /usr/local/bin/pinentry-mac" >> ~/.gnupg/gpg-agent.conf
+    echo "pinentry-program $(command -v pinentry-mac)" >> ~/.gnupg/gpg-agent.conf
 
     gpg --full-generate-key
     read -r -s -p "Please enter the id of the key you just created: " KEY_ID
@@ -323,12 +297,18 @@ configure_services() {
 }
 
 if ! command -v brew >/dev/null 2>&1; then
-  echo "please install homebrew" >&2
+  cat >&2 <<'EOF'
+homebrew is required but was not found on PATH.
+
+Install it with:
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+Then re-run this script.
+EOF
   exit 1
 fi
 
-# install_brew
-# install_brew_packages
+install_brew_packages
 set_options
 sync
 set_shell
