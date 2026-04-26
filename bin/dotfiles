@@ -53,10 +53,27 @@ sync_dotfiles() {
     local entry
     entry="$(basename "${full_path}")"
     [[ "${entry}" == "." || "${entry}" == ".." ]] && continue
-    link_item "${full_path}" "${HOME}/${entry}"
+    if [[ "${entry}" == ".config" ]]; then
+      sync_config_dir "${full_path}"
+    else
+      link_item "${full_path}" "${HOME}/${entry}"
+    fi
   done < <(find "${dotfiles_dir}" -mindepth 1 -maxdepth 1 -print0)
 }
 
+# Link each subdirectory of dotfiles/.config/ individually into ~/.config/
+# rather than symlinking the whole ~/.config (which would clobber configs
+# from other apps that aren't tracked in this repo).
+sync_config_dir() {
+  local config_src="${1}"
+  mkdir -p "${HOME}/.config"
+  while IFS= read -r -d '' full_path; do
+    local entry
+    entry="$(basename "${full_path}")"
+    [[ "${entry}" == "." || "${entry}" == ".." ]] && continue
+    link_item "${full_path}" "${HOME}/.config/${entry}"
+  done < <(find "${config_src}" -mindepth 1 -maxdepth 1 -print0)
+}
 
 platform_install() {
   local uname_out
