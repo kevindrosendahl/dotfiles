@@ -168,15 +168,7 @@ set_options() {
     # Minimize windows into their app icon, not a separate Dock slot
     defaults write com.apple.dock minimize-to-application -bool true
 
-    # Autohide the menu bar always (System Settings -> Control Center ->
-    # "Automatically hide and show the menu bar" -> "Always"). Both keys
-    # are required on macOS 13+; setting only _HIHideMenuBar is ignored
-    # because AppleMenuBarVisibleInFullscreen wins. Takes effect after
-    # logout/reboot — killall doesn't reliably pick it up on Sequoia+.
-    defaults write NSGlobalDomain _HIHideMenuBar -bool true
-    defaults write NSGlobalDomain AppleMenuBarVisibleInFullscreen -bool false
-
-    # Speed up Mission Control animations
+# Speed up Mission Control animations
     defaults write com.apple.dock expose-animation-duration -float 0.1
 
     # Hot corners
